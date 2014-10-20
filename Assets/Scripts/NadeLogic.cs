@@ -3,17 +3,20 @@ using System.Collections;
 
 public class NadeLogic : MonoBehaviour {
 
-	public float fuse_time = 5.0f;
+	// const
 	public float radius = 8.0f;
 	public float power = 1000.0f;
 	public float lift = 1.0f;
-	public GameObject splosion_prefab;
 
-	public bool is_held = false;
-
+	//setup / refs	
 	public NadeThrow nadethrowcomponent; // should not require assignment
+	private LightController lights; 	// does not require assignment
+	public GameObject splosion_prefab;	// requires assignment
+
+	// vars
+	public bool is_held = false;
 	private bool pin_pulled = false;
-	private LightController lights;
+	public float fuse_time = 5.0f;
 	private float light_timer = 0f;
 
 	// Use this for initialization

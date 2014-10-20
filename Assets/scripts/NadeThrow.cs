@@ -3,7 +3,9 @@ using System.Collections;
 
 public class NadeThrow : MonoBehaviour {
 
-	public GameObject nade_pre;
+	public GameObject nade_pre; // requires assignment
+
+	// const
 	public float maxThrowStrength = 30f;
 	public float minThrowStrength = 5f;
 	public float maxThrowPrepTime = 2.5f;	
@@ -11,12 +13,14 @@ public class NadeThrow : MonoBehaviour {
 	public float smooth 	= 5f;
 	public float grabRange 	= 4f;
 
-	private float throwPrepTime = 0f;
+	// refs
+	private Camera cam;
+
+	// vars
 	private GameObject held_nade;
+	private float throwPrepTime = 0f;
 	private bool is_nade_held;
 	private bool is_throw_started;
-
-	private Camera cam;
 	
 	// Use this for initialization
 	void Start () {

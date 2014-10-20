@@ -3,17 +3,30 @@ using System.Collections;
 
 public class LightController : MonoBehaviour {
 
-	public bool is_on;
+	//Light controller should be attached to the same thing as NadeLogic
+
+	//setup / refs
 	public Color bulb_color;
 	public GameObject light_bulb;
-	public float bulb_dim_max_black = .2f;
-	public float bulb_dim_time_mult = 10f;
-	private float light_percentage = 0f;
 	public Light actual_light;
+
+	// const
+	public float bulb_dim_max_black = .1f;
+	public float bulb_dim_time_mult = 10f;
+
+	// vars	
+	public bool is_on;
+	private float light_percentage = 0f;
+
 
 	// Use this for initialization
 	void Start () {
-	
+		if (!light_bulb) {
+			light_bulb = this.gameObject;
+		}
+		if (!actual_light) {
+			actual_light = this.gameObject.GetComponent<Light>();
+		}
 	}
 	
 	// Update is called once per frame
