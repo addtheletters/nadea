@@ -28,9 +28,13 @@ public class NadeThrow : MonoBehaviour {
 			Debug.Log("tried to get nade when already holding one.");
 			return;
 		}
-		GameObject new_nade = (GameObject)Instantiate(nade_pre, cam.transform.position, cam.transform.rotation);
+		GameObject new_nade = (GameObject)Instantiate(nade_pre, cam.transform.position + cam.transform.forward * carryDistance, cam.transform.rotation);
 		held_nade = new_nade;
+		held_nade.rigidbody.isKinematic = true;
 		is_nade_held = true;
+		NadeLogic nl = held_nade.GetComponent<NadeLogic>();
+		nl.is_held = true;
+		nl.nadethrowcomponent = this;
 	}
 
 	void CarryHeldNade(){
@@ -45,6 +49,7 @@ public class NadeThrow : MonoBehaviour {
 			return;
 		}
 		Debug.Log ("pulling pin on held nade... gulp...");
+		((NadeLogic)held_nade.GetComponent("NadeLogic")).Pull_Pin();
 	}
 
 	void StartThrow(){
@@ -61,18 +66,19 @@ public class NadeThrow : MonoBehaviour {
 		throwPrepTime = 0;
 	}
 
-	void TossHeldNade(float throwForce, Vector3 throwTorque = new Vector3()){
+	public void TossHeldNade(float throwForce, Vector3 throwTorque = new Vector3()){
 		if (!is_nade_held) {
 			Debug.Log ("tried to throw nade when none held.");
 			return;
 		}
 		Debug.Log ("Throwing with strength "+throwForce);
 		is_nade_held = false;
-		held_nade.gameObject.rigidbody.isKinematic = false;
+		held_nade.rigidbody.isKinematic = false;
 		held_nade.rigidbody.AddForce( cam.transform.forward*throwForce, ForceMode.Impulse );
 		held_nade.rigidbody.AddTorque( throwTorque );
+		NadeLogic nl = held_nade.GetComponent<NadeLogic>();
+		nl.is_held = false;
 		held_nade = null;
-		is_nade_held = false;
 	}
 
 	void CheckNadePickup(){
@@ -88,8 +94,10 @@ public class NadeThrow : MonoBehaviour {
 				if(p != null) {
 					Debug.Log ("Raycast hit is a nade");
 					held_nade = p.gameObject;
+					p.is_held = true;
+					p.nadethrowcomponent = this;
+					held_nade.rigidbody.isKinematic = true;
 					is_nade_held = true;
-					p.gameObject.rigidbody.isKinematic = true;
 				}
 			}
 		}
@@ -140,6 +148,9 @@ public class NadeThrow : MonoBehaviour {
 			}
 		} else {
 			CheckNadePickup();
+			if(Input.GetButtonDown("Get Nade")){
+				GetNade();
+			}
 		}
 	}
 
