@@ -3,19 +3,22 @@ using System.Collections;
 
 public class NadeLogic : MonoBehaviour {
 
-	public float fuse_time;
-	public float radius = 5.0f;
-	public float power = 10.0f;
-	public float lift = 3.0f;
+	public float fuse_time = 5.0f;
+	public float radius = 8.0f;
+	public float power = 1000.0f;
+	public float lift = 1.0f;
 	public GameObject splosion_prefab;
 
 	public bool is_held = false;
-	public NadeThrow nadethrowcomponent;
+
+	public NadeThrow nadethrowcomponent; // should not require assignment
 	private bool pin_pulled = false;
-	
+	private LightController lights;
+	private float light_timer = 0f;
+
 	// Use this for initialization
 	void Start () {
-
+		lights = this.gameObject.GetComponent <LightController>();
 	}
 
 	public void Pull_Pin(){
@@ -29,9 +32,13 @@ public class NadeLogic : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (pin_pulled) {
-			fuse_time -= Time.deltaTime;
+			fuse_time -= Time.fixedDeltaTime;
+			light_timer -= Time.fixedDeltaTime;
+			if( lights && light_timer < 0 ){
+				lights.Instant_On();
+				light_timer = fuse_time / 8f;
+			}
 		}
-
 		if (fuse_time <= 0) {
 			Blow_Up();
 		}
@@ -52,7 +59,7 @@ public class NadeLogic : MonoBehaviour {
 				othernademaybe.Pull_Pin();
 			}
 		}
-		GameObject splosion = (GameObject)Instantiate(splosion_prefab, transform.position, new Quaternion());
+		Instantiate(splosion_prefab, transform.position, Random.rotation);
 		Destroy (this.gameObject);
 	}
 }

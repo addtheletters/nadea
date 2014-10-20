@@ -6,8 +6,8 @@ public class LightController : MonoBehaviour {
 	public bool is_on;
 	public Color bulb_color;
 	public GameObject light_bulb;
-	public float bulb_dim_max_black = 190f;
-	public float bulb_dim_time_mult = 1f;
+	public float bulb_dim_max_black = .2f;
+	public float bulb_dim_time_mult = 10f;
 	private float light_percentage = 0f;
 	public Light actual_light;
 
@@ -18,10 +18,7 @@ public class LightController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown (KeyCode.K)) {
-			Instant_On();
-		}
-		//dim color every tick. perhaps exponential, half every tick
+		//dim color every tick. perhaps exponential
 		light_percentage -= GetLightDim (light_percentage, Time.fixedDeltaTime);
 		RefreshLight ();
 		if(is_on){
@@ -30,6 +27,7 @@ public class LightController : MonoBehaviour {
 	}
 
 	void RefreshLight(){
+		//Debug.Log (bulb_color * GetColorMultiplier(light_percentage));
 		light_bulb.GetComponent<MeshRenderer> ().material.color = bulb_color * GetColorMultiplier(light_percentage);
 		actual_light.intensity = light_percentage;
 		// div 255 = blac
@@ -39,15 +37,15 @@ public class LightController : MonoBehaviour {
 	}
 
 	float GetColorMultiplier(float current_level){
-		return 1.0f / (1 + ((1-light_percentage) * bulb_dim_max_black) );
+		return bulb_dim_max_black + ((1-bulb_dim_max_black)*light_percentage);
 	}
 
 	public float GetLightDim(float current_level, float timescale){
 		if (current_level < .01f) {
 			return current_level;
 		}
-		return current_level / 2; //each (second/timemult)? light level is reduced to half
-		// div 2 ^ (timescale)
+		return current_level * .45f * timescale * bulb_dim_time_mult; // 2; //each (second/timemult)? light level is reduced to half
+		// div 2 ^ (timescale)? no
 	}
 
 	public void TurnOn(){
