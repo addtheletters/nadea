@@ -3,6 +3,14 @@ using System.Collections;
 
 public class NadeThrow : MonoBehaviour {
 
+	// make carrying dependant on forces, not direct position / nonkinematic
+
+	// physical pin
+	// physical trigger lever?
+
+	// resetting targets
+	// scoreboard referenced by their prefab
+
 	public GameObject[] nade_pres; // requires assignment
 
 	// const
@@ -52,9 +60,17 @@ public class NadeThrow : MonoBehaviour {
 
 	void CarryHeldNade(){
 		// causes the nade to be dragged in front of the camera. kinda jerky when the player is moving tho
+
+		// position
 		held_nade.transform.position = Vector3.Lerp (
 			held_nade.transform.position,
-			cam.transform.position + cam.transform.forward * carryDistance, Time.deltaTime * smooth);
+			cam.transform.position + cam.transform.forward * carryDistance, Time.fixedDeltaTime * smooth);
+
+		// rotation?
+		held_nade.transform.rotation = Quaternion.Lerp( 
+			held_nade.transform.rotation,
+		    Quaternion.LookRotation (cam.transform.forward), Time.fixedDeltaTime * smooth);
+
 	}
 
 	void PullHeldPin(){
@@ -139,6 +155,20 @@ public class NadeThrow : MonoBehaviour {
 		return maybe;
 	}
 
+	Vector3 GetThrowTorque( float prepTime ){
+		// depends on grenade type tho
+		// maybe also depends on type of throw. toss?
+		string nadetype = held_nade.GetComponent<NadeLogic> ().nade_type;
+		if (nadetype == "stick") {
+			// end over end forwards
+		} else if (nadetype == "ball") {
+			// like a righthand overhand, vector pointing up and left (or is it down and right)? 
+		} else {
+			// uhh something...
+		}
+		return Random.onUnitSphere * (GetThrowStrength (prepTime) * (Random.value * 0.3f + 0.7f)) * 5;
+	}
+
 	void CheckNadeSelect(){
 		// check for input to see if selected nade changes (number keys)
 		for (int i = 0; i < 5; i++) {
@@ -197,7 +227,7 @@ public class NadeThrow : MonoBehaviour {
 				}
 				if(Input.GetButtonUp ("Throw")){
 					Debug.Log (":"+throwPrepTime+" of throw prep time");
-					TossHeldNade(GetThrowStrength(throwPrepTime), Random.onUnitSphere * (GetThrowStrength(throwPrepTime) * (Random.value * 0.5f + 0.5f)));
+					TossHeldNade(GetThrowStrength(throwPrepTime), GetThrowTorque(throwPrepTime));
 					CancelThrow();
 				}
 			}

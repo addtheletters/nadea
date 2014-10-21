@@ -9,6 +9,7 @@ public class NadeLogic : MonoBehaviour {
 	public float lift = 1.0f;
 
 	//setup / refs	
+	public string nade_type = "standard"; // affects how it is thrown
 	public NadeThrow nadethrowcomponent; // should not require assignment
 	private LightController lights; 	// does not require assignment
 	public GameObject splosion_prefab;	// requires assignment
