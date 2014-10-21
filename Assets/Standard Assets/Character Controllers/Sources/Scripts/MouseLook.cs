@@ -28,6 +28,8 @@ public class MouseLook : MonoBehaviour {
 	public float minimumY = -60F;
 	public float maximumY = 60F;
 
+	public bool lockCursor = true;
+
 	float rotationY = 0F;
 
 	void Update ()
@@ -52,6 +54,7 @@ public class MouseLook : MonoBehaviour {
 			
 			transform.localEulerAngles = new Vector3(-rotationY, transform.localEulerAngles.y, 0);
 		}
+		Screen.lockCursor = lockCursor;
 	}
 	
 	void Start ()
