@@ -15,7 +15,7 @@ public class NadeLogic : MonoBehaviour {
 
 	// vars
 	public bool is_held = false;
-	private bool pin_pulled = false;
+	public bool pin_pulled = false;
 	public float fuse_time = 5.0f;
 	private float light_timer = 0f;
 
@@ -73,7 +73,7 @@ public class NadeLogic : MonoBehaviour {
 				othernademaybe.Pull_Pin();
 			}
 		}
-		Instantiate(splosion_prefab, transform.position, Random.rotation); // make a boom
+		Instantiate(splosion_prefab, this.gameObject.transform.position, Random.rotation); // make a boom
 		Destroy (this.gameObject); // remove this nade
 	}
 }

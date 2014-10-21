@@ -27,6 +27,9 @@ public class LightController : MonoBehaviour {
 		if (!actual_light) {
 			actual_light = this.gameObject.GetComponent<Light>();
 		}
+		if (light_bulb && !actual_light) {
+			actual_light = light_bulb.GetComponent<Light>();
+		}
 	}
 	
 	// Update is called once per frame
@@ -53,7 +56,7 @@ public class LightController : MonoBehaviour {
 		if (current_level < .01f) {
 			return current_level; // don't want teeny tiny light floats, just force to zero if <1%
 		}
-		return current_level * .45f * timescale * bulb_dim_time_mult; // 2; //each (second/timemult)? light level is reduced to half
+		return current_level * .75f * timescale * bulb_dim_time_mult; // 2; //each (second/timemult)? light level is reduced to half
 		// time mult var can be tweaked for faster / slower light fading
 	}
 
