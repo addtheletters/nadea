@@ -40,27 +40,24 @@ public class LightController : MonoBehaviour {
 	}
 
 	void RefreshLight(){
-		//Debug.Log (bulb_color * GetColorMultiplier(light_percentage));
 		light_bulb.GetComponent<MeshRenderer> ().material.color = bulb_color * GetColorMultiplier(light_percentage);
-		actual_light.intensity = light_percentage;
-		// div 255 = blac
-		// div 1 = good
-		// percemtage 1 = good
-		// div 1+ (1-percent) * (254 or less depending on min color)
+		// change the material color of the bulb to seem more/less glowy
+		actual_light.intensity = light_percentage; // and dim the point light source
 	}
 
 	float GetColorMultiplier(float current_level){
-		return bulb_dim_max_black + ((1-bulb_dim_max_black)*light_percentage);
+		return bulb_dim_max_black + ((1-bulb_dim_max_black)*light_percentage); // color for material of bulb
 	}
 
 	public float GetLightDim(float current_level, float timescale){
 		if (current_level < .01f) {
-			return current_level;
+			return current_level; // don't want teeny tiny light floats, just force to zero if <1%
 		}
 		return current_level * .45f * timescale * bulb_dim_time_mult; // 2; //each (second/timemult)? light level is reduced to half
-		// div 2 ^ (timescale)? no
+		// time mult var can be tweaked for faster / slower light fading
 	}
 
+	// turn off and turn on for continuous light shining
 	public void TurnOn(){
 		is_on = true;
 	}

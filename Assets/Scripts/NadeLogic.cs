@@ -3,7 +3,7 @@ using System.Collections;
 
 public class NadeLogic : MonoBehaviour {
 
-	// const
+	// const	
 	public float radius = 8.0f;
 	public float power = 1000.0f;
 	public float lift = 1.0f;
@@ -21,6 +21,8 @@ public class NadeLogic : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		// get light controller if there are lights attached too
+		// if there are none, lights will be null, which is OK
 		lights = this.gameObject.GetComponent <LightController>();
 	}
 
@@ -37,8 +39,12 @@ public class NadeLogic : MonoBehaviour {
 		if (pin_pulled) {
 			fuse_time -= Time.fixedDeltaTime;
 			light_timer -= Time.fixedDeltaTime;
+
+			// if we have lights and our light timer expires
 			if( lights && light_timer < 0 ){
+				// flash the lights and reset the timer
 				lights.Instant_On();
+				// lights blink faster as fuse goes down
 				light_timer = fuse_time / 8f;
 			}
 		}
@@ -56,13 +62,18 @@ public class NadeLogic : MonoBehaviour {
 		foreach (Collider hit in colliders) {
 			if (hit && hit.rigidbody)
 				hit.rigidbody.AddExplosionForce(power, explosionPos, radius, lift);
+			// push all rigidbodies that are hit away with explosive force
+
+			// if what's hit is a nade
 			NadeLogic othernademaybe = hit.gameObject.GetComponent<NadeLogic>();
+			// and the pin is not pulled
 			if(othernademaybe && !othernademaybe.pin_pulled){
+				// give it a random lowered fuse time and pull the pin
 				othernademaybe.fuse_time = (othernademaybe.fuse_time) * (Random.value);
 				othernademaybe.Pull_Pin();
 			}
 		}
-		Instantiate(splosion_prefab, transform.position, Random.rotation);
-		Destroy (this.gameObject);
+		Instantiate(splosion_prefab, transform.position, Random.rotation); // make a boom
+		Destroy (this.gameObject); // remove this nade
 	}
 }

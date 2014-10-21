@@ -25,14 +25,17 @@ public class NadeThrow : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		cam = Camera.main;
+		// so we know where we're aiming we need the camera
 	}
 
 	void GetNade(){
+		// pull a new nade from the ether
 		if( is_nade_held ){
 			Debug.Log("tried to get nade when already holding one.");
 			return;
 		}
 		GameObject new_nade = (GameObject)Instantiate(nade_pre, cam.transform.position + cam.transform.forward * carryDistance, cam.transform.rotation);
+		// do all the same assignments described below in CheckNadePickup()
 		held_nade = new_nade;
 		held_nade.rigidbody.isKinematic = true;
 		is_nade_held = true;
@@ -42,6 +45,7 @@ public class NadeThrow : MonoBehaviour {
 	}
 
 	void CarryHeldNade(){
+		// causes the nade to be dragged in front of the camera. kinda jerky when the player is moving tho
 		held_nade.transform.position = Vector3.Lerp (
 			held_nade.transform.position,
 			cam.transform.position + cam.transform.forward * carryDistance, Time.deltaTime * smooth);
@@ -76,10 +80,15 @@ public class NadeThrow : MonoBehaviour {
 			return;
 		}
 		Debug.Log ("Throwing with strength "+throwForce);
+
+		// undo everything commented about in CheckNadePickup()
 		is_nade_held = false;
 		held_nade.rigidbody.isKinematic = false;
+
+		// also give it the throw forces
 		held_nade.rigidbody.AddForce( cam.transform.forward*throwForce, ForceMode.Impulse );
 		held_nade.rigidbody.AddTorque( throwTorque );
+
 		NadeLogic nl = held_nade.GetComponent<NadeLogic>();
 		nl.is_held = false;
 		held_nade = null;
@@ -87,20 +96,28 @@ public class NadeThrow : MonoBehaviour {
 
 	void CheckNadePickup(){
 		if (Input.GetButtonDown ("Grab")) {
-			Debug.Log ("Attempting to grab with raycast");
+			// attempt to grab a nade the camera is pointing at
 			int x = Screen.width / 2;
 			int y = Screen.height / 2;
+			// raycast out from center of screen
 			Ray ray = cam.ScreenPointToRay(new Vector3(x,y));
 			RaycastHit hit;
+
 			if(Physics.Raycast(ray, out hit, grabRange)) {
 				Debug.Log ("Raycast hit");
 				NadeLogic p = hit.collider.GetComponent<NadeLogic>();
+				// if we hit something and it has a NadeLogic component...
 				if(p != null) {
 					Debug.Log ("Raycast hit is a nade");
+					// make it what we hold
 					held_nade = p.gameObject;
+					// make sure it knows it's held
 					p.is_held = true;
+					// make sure it knows what's holding it
 					p.nadethrowcomponent = this;
+					// allow us to drag it around without gravity snatching it
 					held_nade.rigidbody.isKinematic = true;
+					// keep track of the fact that we are now holding something
 					is_nade_held = true;
 				}
 			}
@@ -109,18 +126,13 @@ public class NadeThrow : MonoBehaviour {
 
 	float GetThrowStrength( float prepTime ){
 		float maybe = minThrowStrength + ((maxThrowStrength - minThrowStrength) * prepTime / maxThrowPrepTime);
+		// strength of throw is based on time mouse is held down, with a maximum time and force
 		if (maybe > maxThrowStrength) {
 			return maxThrowStrength;
 		}
 		return maybe;
 	}
-
-
-	/*void OnGUI(){
-		Event e = Event.current;
-		if (e.isKey)
-			Debug.Log("Detected key code: " + e.keyCode);
-	}*/
+	
 
 	void Update(){
 		// make sure nade is held in front of camera
