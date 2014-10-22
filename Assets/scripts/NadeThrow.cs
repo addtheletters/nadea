@@ -83,7 +83,7 @@ public class NadeThrow : MonoBehaviour {
 		PickUpNade (new_nade);
 	}
 
-	void CarryHeldNade(){
+	void old_CarryHeldNade(){
 		// causes the nade to be dragged in front of the camera. kinda jerky when the player is moving tho
 
 		// position
@@ -98,30 +98,35 @@ public class NadeThrow : MonoBehaviour {
 
 	}
 
-	void re_CarryHeldNade(){
+	void CarryHeldNade(){
 		// does not require nade to become kinematic
 		// nade should collide properly
-
 		// should rely on forces / velocities / torques rather than setting values
 
 		// position
 		Vector3 intended_position = cam.transform.position + cam.transform.forward * carryDistance;
-		Vector3 deltapos = intended_position - held_nade.transform.position;
-		// should feature projection of actual velocity unto deltapos via dot product
-		// the inverse projection is used for the intended, scaled as part of intended_vel
-		// the nonprojection component is another force
-		Vector3 intended_velocity = GetComponent<CharacterController>().velocity + deltapos.normalized * 40 * Mathf.Min(1.0f, deltapos.magnitude / 2);
-		// if moving really fast try to get closer to intended velocity
-		held_nade.rigidbody.AddForce ( (intended_velocity - held_nade.rigidbody.velocity), ForceMode.Acceleration);
-		//held_nade.rigidbody.AddForce ( ForceMode.Impulse);
-		held_nade.rigidbody.AddForce (deltapos, ForceMode.Acceleration);
-		// move as player moves
-		held_nade.rigidbody.AddForce (GetComponent<CharacterController>().velocity, ForceMode.Acceleration);
-		//held_nade.rigidbody.velocity = deltapos.normalized * held_nade.rigidbody.velocity.magnitude;
-		// as getting closer to intended position, slow velocity
-		//held_nade.rigidbody.velocity *= Mathf.Min(1.0f, deltapos.magnitude / 3);
+		Vector3 delta_pos = intended_position - held_nade.transform.position;
+		held_nade.rigidbody.velocity = GetComponent<CharacterController>().velocity + delta_pos.normalized * held_nade.rigidbody.velocity.magnitude;
+		// makes it go in the direction of the grab point at the speed of before. change so that cannot spontaneously change dir
+		held_nade.rigidbody.AddForce(delta_pos * 50, ForceMode.Acceleration);
+		Debug.Log ("vscale "+Mathf.Min(1.0f, delta_pos.magnitude ));
+		held_nade.rigidbody.velocity *= Mathf.Min(1.0f, delta_pos.magnitude);
 
 		// rotation
+		held_nade.rigidbody.angularVelocity = Vector3.zero;
+		held_nade.transform.rotation = Quaternion.Lerp( 
+               held_nade.transform.rotation,
+               Quaternion.LookRotation (cam.transform.forward), Time.fixedDeltaTime * smooth);
+
+		/*
+		Quaternion delta_rot = Quaternion.FromToRotation (intended_rotation.eulerAngles, held_nade.transform.rotation.eulerAngles);// intended_rotation.eulerAngles - held_nade.transform.rotation.eulerAngles;
+		Quaternion delta_rot_unit = delta_rot;
+		delta_rot_unit.w = 1;
+		held_nade.rigidbody.angularVelocity = (delta_rot_unit*held_nade.rigidbody.angularVelocity.magnitude).eulerAngles;//delta_rot * held_nade.rigidbody.angularVelocity.magnitude;
+		held_nade.rigidbody.AddTorque (delta_rot*50, ForceMode.Acceleration);
+		Debug.Log ("tscale "+Mathf.Min(1.0f, delta_rot.w ));
+		held_nade.rigidbody.angularVelocity *= Mathf.Min (1.0f, delta_rot.w);
+		*/
 
 	}
 
