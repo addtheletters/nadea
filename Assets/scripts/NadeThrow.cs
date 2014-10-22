@@ -171,7 +171,7 @@ public class NadeThrow : MonoBehaviour {
 
 	void CheckNadeSelect(){
 		// check for input to see if selected nade changes (number keys)
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < (nade_pres.Length + 1); i++) {
 			if (Input.GetButtonDown ("Select Nade "+i)) {
 				Debug.Log ("selecting nade "+i);
 				selected_nade = i-1;
@@ -185,7 +185,7 @@ public class NadeThrow : MonoBehaviour {
 
 	void OnGUI () {
 		// nade selector
-		selected_nade = GUI.Toolbar (new Rect (25, 25, 250, 30), selected_nade, toolbarStrings);
+		selected_nade = GUI.Toolbar (new Rect (25, 25, 50*(nade_pres.Length+1) , 30), selected_nade, toolbarStrings);
 
 		// throw strength
 		if (is_throw_started) {
