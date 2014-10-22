@@ -17,6 +17,7 @@ public class NadeLogic : MonoBehaviour {
 	// vars
 	public bool is_held = false;
 	public bool pin_pulled = false;
+	public bool fuse_lit = false;
 	public float fuse_time = 5.0f;
 	private float light_timer = 0f;
 
@@ -27,17 +28,31 @@ public class NadeLogic : MonoBehaviour {
 		lights = this.gameObject.GetComponent <LightController>();
 	}
 
+	public void Light_Fuse(){
+		fuse_lit = true;
+	}
+
 	public void Pull_Pin(){
 		pin_pulled = true;
+		//fuse_lit = true;
 	}
 
 	public void Restore_Pin(){
 		pin_pulled = false;
+		// stuff a new pin in?
+	}
+
+	public bool shouldLightFuse(){
+		return pin_pulled;
 	}
 
 	// Update is called once per frame
 	void Update () {
-		if (pin_pulled) {
+		if (shouldLightFuse()) {
+			Light_Fuse();
+		}
+
+		if (fuse_lit) {
 			fuse_time -= Time.fixedDeltaTime;
 			light_timer -= Time.fixedDeltaTime;
 
@@ -68,10 +83,10 @@ public class NadeLogic : MonoBehaviour {
 			// if what's hit is a nade
 			NadeLogic othernademaybe = hit.gameObject.GetComponent<NadeLogic>();
 			// and the pin is not pulled
-			if(othernademaybe && !othernademaybe.pin_pulled){
+			if(othernademaybe && !othernademaybe.fuse_lit){
 				// give it a random lowered fuse time and pull the pin
 				othernademaybe.fuse_time = (othernademaybe.fuse_time) * (Random.value);
-				othernademaybe.Pull_Pin();
+				othernademaybe.Light_Fuse();
 			}
 		}
 		Instantiate(splosion_prefab, this.gameObject.transform.position, Random.rotation); // make a boom
