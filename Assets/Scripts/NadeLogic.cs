@@ -48,6 +48,7 @@ public class NadeLogic : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+
 		if (shouldLightFuse()) {
 			Light_Fuse();
 		}

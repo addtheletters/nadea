@@ -42,6 +42,36 @@ public class NadeThrow : MonoBehaviour {
 
 	}
 
+	void PickUpNade( GameObject nade ){
+		// make it what we hold
+		held_nade = nade;
+		NadeLogic nl = nade.GetComponent<NadeLogic> ();
+		// make sure it knows it's held
+		nl.is_held = true;
+		// make sure it knows what's holding it
+		nl.nadethrowcomponent = this;
+
+		// allow us to drag it around without gravity snatching it
+		held_nade.rigidbody.isKinematic = true;
+		// should be replaced soon by
+		//held_nade.rigidbody.useGravity = false;
+
+		// keep track of the fact that we are now holding something
+		is_nade_held = true;
+	}
+
+	void DropNade( ){
+		// undo everything commented about in CheckNadePickup()
+		is_nade_held = false;
+		held_nade.rigidbody.isKinematic = false;
+		//held_nade.rigidbody.useGravity = true;
+
+		NadeLogic nl = held_nade.GetComponent<NadeLogic>();
+		nl.is_held = false;
+
+		held_nade = null;
+	}
+
 	void GetNade(){
 		// pull a new nade from the ether
 		if( is_nade_held ){
@@ -50,12 +80,7 @@ public class NadeThrow : MonoBehaviour {
 		}
 		GameObject new_nade = (GameObject)Instantiate(nade_pres[selected_nade], cam.transform.position + cam.transform.forward * carryDistance, cam.transform.rotation);
 		// do all the same assignments described below in CheckNadePickup()
-		held_nade = new_nade;
-		held_nade.rigidbody.isKinematic = true;
-		is_nade_held = true;
-		NadeLogic nl = held_nade.GetComponent<NadeLogic>();
-		nl.is_held = true;
-		nl.nadethrowcomponent = this;
+		PickUpNade (new_nade);
 	}
 
 	void CarryHeldNade(){
@@ -70,6 +95,18 @@ public class NadeThrow : MonoBehaviour {
 		held_nade.transform.rotation = Quaternion.Lerp( 
 			held_nade.transform.rotation,
 		    Quaternion.LookRotation (cam.transform.forward), Time.fixedDeltaTime * smooth);
+
+	}
+
+	void re_CarryHeldNade(){
+		// does not require nade to become kinematic
+		// nade should collide properly
+
+		// should rely on forces / velocities / torques rather than setting values
+
+		// position
+
+		// rotation
 
 	}
 
@@ -103,17 +140,14 @@ public class NadeThrow : MonoBehaviour {
 		}
 		Debug.Log ("Throwing with strength "+throwForce);
 
-		// undo everything commented about in CheckNadePickup()
-		is_nade_held = false;
-		held_nade.rigidbody.isKinematic = false;
+		// need temp var because drop clears internal reference
+		GameObject tossed_nade = held_nade;
 
+		DropNade ();
 		// also give it the throw forces
-		held_nade.rigidbody.AddForce( cam.transform.forward*throwForce, ForceMode.Impulse );
-		held_nade.rigidbody.AddTorque( throwTorque );
+		tossed_nade.rigidbody.AddForce( cam.transform.forward*throwForce, ForceMode.Impulse );
+		tossed_nade.rigidbody.AddTorque( throwTorque );
 
-		NadeLogic nl = held_nade.GetComponent<NadeLogic>();
-		nl.is_held = false;
-		held_nade = null;
 	}
 
 	void CheckNadePickup(){
@@ -132,15 +166,7 @@ public class NadeThrow : MonoBehaviour {
 				if(p != null) {
 					Debug.Log ("Raycast hit is a nade");
 					// make it what we hold
-					held_nade = p.gameObject;
-					// make sure it knows it's held
-					p.is_held = true;
-					// make sure it knows what's holding it
-					p.nadethrowcomponent = this;
-					// allow us to drag it around without gravity snatching it
-					held_nade.rigidbody.isKinematic = true;
-					// keep track of the fact that we are now holding something
-					is_nade_held = true;
+					PickUpNade(p.gameObject);
 				}
 			}
 		}
