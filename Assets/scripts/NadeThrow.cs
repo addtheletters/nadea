@@ -107,6 +107,9 @@ public class NadeThrow : MonoBehaviour {
 		// position
 		Vector3 intended_position = cam.transform.position + cam.transform.forward * carryDistance;
 		Vector3 deltapos = intended_position - held_nade.transform.position;
+		// should feature projection of actual velocity unto deltapos via dot product
+		// the inverse projection is used for the intended, scaled as part of intended_vel
+		// the nonprojection component is another force
 		Vector3 intended_velocity = GetComponent<CharacterController>().velocity + deltapos.normalized * 40 * Mathf.Min(1.0f, deltapos.magnitude / 2);
 		// if moving really fast try to get closer to intended velocity
 		held_nade.rigidbody.AddForce ( (intended_velocity - held_nade.rigidbody.velocity), ForceMode.Acceleration);
