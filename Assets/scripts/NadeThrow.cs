@@ -78,24 +78,10 @@ public class NadeThrow : MonoBehaviour {
 			Debug.Log("tried to get nade when already holding one.");
 			return;
 		}
-		GameObject new_nade = (GameObject)Instantiate(nade_pres[selected_nade], cam.transform.position + cam.transform.forward * carryDistance, cam.transform.rotation);
-		// do all the same assignments described below in CheckNadePickup()
+		GameObject new_nade = (GameObject)Instantiate(nade_pres[selected_nade],
+		                                              cam.transform.position + cam.transform.forward * carryDistance,
+		                                              cam.transform.rotation);
 		PickUpNade (new_nade);
-	}
-
-	void old_CarryHeldNade(){
-		// causes the nade to be dragged in front of the camera. kinda jerky when the player is moving tho
-
-		// position
-		held_nade.transform.position = Vector3.Lerp (
-			held_nade.transform.position,
-			cam.transform.position + cam.transform.forward * carryDistance, Time.fixedDeltaTime * smooth);
-
-		// rotation?
-		held_nade.transform.rotation = Quaternion.Lerp( 
-			held_nade.transform.rotation,
-		    Quaternion.LookRotation (cam.transform.forward), Time.fixedDeltaTime * smooth);
-
 	}
 
 	void CarryHeldNade(){
@@ -117,17 +103,6 @@ public class NadeThrow : MonoBehaviour {
 		held_nade.transform.rotation = Quaternion.Lerp( 
                held_nade.transform.rotation,
                Quaternion.LookRotation (cam.transform.forward), Time.fixedDeltaTime * smooth);
-
-		/*
-		Quaternion delta_rot = Quaternion.FromToRotation (intended_rotation.eulerAngles, held_nade.transform.rotation.eulerAngles);// intended_rotation.eulerAngles - held_nade.transform.rotation.eulerAngles;
-		Quaternion delta_rot_unit = delta_rot;
-		delta_rot_unit.w = 1;
-		held_nade.rigidbody.angularVelocity = (delta_rot_unit*held_nade.rigidbody.angularVelocity.magnitude).eulerAngles;//delta_rot * held_nade.rigidbody.angularVelocity.magnitude;
-		held_nade.rigidbody.AddTorque (delta_rot*50, ForceMode.Acceleration);
-		Debug.Log ("tscale "+Mathf.Min(1.0f, delta_rot.w ));
-		held_nade.rigidbody.angularVelocity *= Mathf.Min (1.0f, delta_rot.w);
-		*/
-
 	}
 
 	void PullHeldPin(){
@@ -231,7 +206,7 @@ public class NadeThrow : MonoBehaviour {
 
 	void OnGUI () {
 		// nade selector
-		selected_nade = GUI.Toolbar (new Rect (25, 25, 50*(nade_pres.Length+1) , 30), selected_nade, toolbarStrings);
+		selected_nade = GUI.Toolbar (new Rect (25, 25, 70*(nade_pres.Length+1) , 30), selected_nade, toolbarStrings);
 
 		// throw strength
 		if (is_throw_started) {
