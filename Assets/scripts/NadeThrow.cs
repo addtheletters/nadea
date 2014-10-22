@@ -32,7 +32,7 @@ public class NadeThrow : MonoBehaviour {
 	private bool is_throw_started;
 
 	// for gui
-	private string[] toolbarStrings = {"Base", "Normal", "Cylinder", "Red Light"};
+	private string[] toolbarStrings = {"Base", "Normal", "Cylinder", "Red Light", "Smoke"};
 
 	
 	// Use this for initialization
@@ -296,9 +296,6 @@ public class NadeThrow : MonoBehaviour {
 			}
 		}
 	}
-
-
-
 
 
 
