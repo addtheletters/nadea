@@ -52,9 +52,9 @@ public class NadeThrow : MonoBehaviour {
 		nl.nadethrowcomponent = this;
 
 		// allow us to drag it around without gravity snatching it
-		held_nade.rigidbody.isKinematic = true;
+		//held_nade.rigidbody.isKinematic = true;
 		// should be replaced soon by
-		//held_nade.rigidbody.useGravity = false;
+		held_nade.rigidbody.useGravity = false;
 
 		// keep track of the fact that we are now holding something
 		is_nade_held = true;
@@ -63,8 +63,8 @@ public class NadeThrow : MonoBehaviour {
 	void DropNade( ){
 		// undo everything commented about in CheckNadePickup()
 		is_nade_held = false;
-		held_nade.rigidbody.isKinematic = false;
-		//held_nade.rigidbody.useGravity = true;
+		//held_nade.rigidbody.isKinematic = false;
+		held_nade.rigidbody.useGravity = true;
 
 		NadeLogic nl = held_nade.GetComponent<NadeLogic>();
 		nl.is_held = false;
@@ -105,6 +105,18 @@ public class NadeThrow : MonoBehaviour {
 		// should rely on forces / velocities / torques rather than setting values
 
 		// position
+		Vector3 intended_position = cam.transform.position + cam.transform.forward * carryDistance;
+		Vector3 deltapos = intended_position - held_nade.transform.position;
+		Vector3 intended_velocity = GetComponent<CharacterController>().velocity + deltapos.normalized * 40 * Mathf.Min(1.0f, deltapos.magnitude / 2);
+		// if moving really fast try to get closer to intended velocity
+		held_nade.rigidbody.AddForce ( (intended_velocity - held_nade.rigidbody.velocity), ForceMode.Acceleration);
+		//held_nade.rigidbody.AddForce ( ForceMode.Impulse);
+		held_nade.rigidbody.AddForce (deltapos, ForceMode.Acceleration);
+		// move as player moves
+		held_nade.rigidbody.AddForce (GetComponent<CharacterController>().velocity, ForceMode.Acceleration);
+		//held_nade.rigidbody.velocity = deltapos.normalized * held_nade.rigidbody.velocity.magnitude;
+		// as getting closer to intended position, slow velocity
+		//held_nade.rigidbody.velocity *= Mathf.Min(1.0f, deltapos.magnitude / 3);
 
 		// rotation
 
@@ -146,7 +158,7 @@ public class NadeThrow : MonoBehaviour {
 		DropNade ();
 		// also give it the throw forces
 		tossed_nade.rigidbody.AddForce( cam.transform.forward*throwForce, ForceMode.Impulse );
-		tossed_nade.rigidbody.AddTorque( throwTorque );
+		tossed_nade.rigidbody.AddTorque( throwTorque ); // maybe should be AddRelativeTorque for easier calculation
 
 	}
 
