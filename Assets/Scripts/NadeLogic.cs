@@ -7,12 +7,14 @@ public class NadeLogic : MonoBehaviour {
 	public float radius = 8.0f;
 	public float power = 1000.0f;
 	public float lift = 1.0f;
+	public float pin_pull_force = 10f;
 
 	//setup / refs	
 	public string nade_type = "standard"; // affects how it is thrown
 	public NadeThrow nadethrowcomponent; // should not require assignment
 	private LightController lights; 	// does not require assignment
 	public GameObject splosion_prefab;	// requires assignment
+	public GameObject pin;				// probably requires assignment
 
 	// vars
 	public bool is_held = false;
@@ -34,11 +36,18 @@ public class NadeLogic : MonoBehaviour {
 
 	public void Pull_Pin(){
 		pin_pulled = true;
+		if (pin) {
+			pin.rigidbody.isKinematic = false; // let the pin fall and clatter into things
+			pin.rigidbody.AddRelativeForce (new Vector3 (0, pin_pull_force, 0));
+			pin = null;
+		}
 		//fuse_lit = true;
 	}
 
-	public void Restore_Pin(){
+	public void Restore_Pin(GameObject new_pin){
 		pin_pulled = false;
+		pin = new_pin;
+		pin.rigidbody.isKinematic = true;
 		// stuff a new pin in?
 	}
 

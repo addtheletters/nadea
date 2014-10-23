@@ -14,12 +14,12 @@ public class NadeThrow : MonoBehaviour {
 	public GameObject[] nade_pres; // requires assignment
 
 	// const
-	public float maxThrowStrength = 30f;
-	public float minThrowStrength = 5f;
-	public float maxThrowPrepTime = 2.5f;	
-	public float carryDistance = 1.2f;
-	public float smooth 	= 5f;
-	public float grabRange 	= 4f;
+	public const float maxThrowStrength = 25f;
+	public const float minThrowStrength = 1f;
+	public const float maxThrowPrepTime = 1.5f;	
+	public const float carryDistance = 1.2f;
+	public const float smooth 	= 5f;
+	public const float grabRange 	= 4f;
 
 	// refs
 	private Camera cam;
@@ -95,7 +95,7 @@ public class NadeThrow : MonoBehaviour {
 		held_nade.rigidbody.velocity = GetComponent<CharacterController>().velocity + delta_pos.normalized * held_nade.rigidbody.velocity.magnitude;
 		// makes it go in the direction of the grab point at the speed of before. change so that cannot spontaneously change dir
 		held_nade.rigidbody.AddForce(delta_pos * 50, ForceMode.Acceleration);
-		Debug.Log ("vscale "+Mathf.Min(1.0f, delta_pos.magnitude ));
+		// Debug.Log ("vscale "+Mathf.Min(1.0f, delta_pos.magnitude ));
 		held_nade.rigidbody.velocity *= Mathf.Min(1.0f, delta_pos.magnitude);
 
 		// rotation
@@ -157,6 +157,10 @@ public class NadeThrow : MonoBehaviour {
 			if(Physics.Raycast(ray, out hit, grabRange)) {
 				Debug.Log ("Raycast hit");
 				NadeLogic p = hit.collider.GetComponent<NadeLogic>();
+				if(p == null){
+					// could be a grenade pin?
+					p = hit.collider.GetComponentInParent<NadeLogic>();
+				}
 				// if we hit something and it has a NadeLogic component...
 				if(p != null) {
 					Debug.Log ("Raycast hit is a nade");
@@ -223,6 +227,9 @@ public class NadeThrow : MonoBehaviour {
 			}
 			else{
 				message = "Pin is in place.";
+				if( nadelog.fuse_lit ){
+					LowerLeftGUIBox(2, "Fuse seems to be burning...");
+				}
 			}
 			LowerLeftGUIBox(1, message);
 		}
