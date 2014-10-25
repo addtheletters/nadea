@@ -51,8 +51,47 @@ public class NadeLogic : MonoBehaviour {
 		// stuff a new pin in?
 	}
 
-	public bool shouldLightFuse(){
+	protected bool shouldLightFuse(){
 		return pin_pulled;
+	}
+
+	protected bool shouldBlowup(){
+		return fuse_time <= 0;
+	}
+
+	protected bool shouldFlashLights(){
+		return lights && light_timer < 0;
+	}
+
+	protected float getFullLightTimer(){
+		// lights blink faster as fuse goes down
+		return fuse_time / 8f;
+	}
+
+	protected void applyExplosionEffect(Collider physics_hit, Vector3 explosionPos){
+		// push all rigidbodies that are hit away with explosive force
+		if (physics_hit && physics_hit.rigidbody) {
+			applyRigidbodyExplEffect(physics_hit, explosionPos);
+		}
+
+		// if what's hit is a nade
+		NadeLogic othernade = physics_hit.gameObject.GetComponent<NadeLogic>();
+		if(othernade){
+			applyNadeExplEffect(othernade, explosionPos);
+
+		}
+	}
+
+	protected void applyRigidbodyExplEffect(Rigidbody otherRB, Vector3 explosionPos){
+		otherRB.AddExplosionForce(power, explosionPos, radius, lift);
+	}
+
+	protected void applyNadeExplEffect(NadeLogic othernade, Vector3 explosionPos){
+		if (!othernade.fuse_lit) {		// and the pin is not pulled
+			// give it a random lowered fuse time and light the fuse
+			othernade.fuse_time = (othernade.fuse_time) * (Random.value * 0.75f);
+			othernade.Light_Fuse();
+		}
 	}
 
 	// Update is called once per frame
@@ -67,14 +106,13 @@ public class NadeLogic : MonoBehaviour {
 			light_timer -= Time.fixedDeltaTime;
 
 			// if we have lights and our light timer expires
-			if( lights && light_timer < 0 ){
+			if( shouldFlashLights ){
 				// flash the lights and reset the timer
 				lights.Instant_On();
-				// lights blink faster as fuse goes down
-				light_timer = fuse_time / 8f;
+				light_timer = getFullLightTimer();
 			}
 		}
-		if (fuse_time <= 0) {
+		if (shouldBlowup()) {
 			Blow_Up();
 		}
 	}
@@ -86,18 +124,9 @@ public class NadeLogic : MonoBehaviour {
 		Vector3 explosionPos = transform.position;
 		Collider[] colliders = Physics.OverlapSphere(explosionPos, radius);
 		foreach (Collider hit in colliders) {
-			if (hit && hit.rigidbody)
-				hit.rigidbody.AddExplosionForce(power, explosionPos, radius, lift);
-			// push all rigidbodies that are hit away with explosive force
 
-			// if what's hit is a nade
-			NadeLogic othernademaybe = hit.gameObject.GetComponent<NadeLogic>();
-			// and the pin is not pulled
-			if(othernademaybe && !othernademaybe.fuse_lit){
-				// give it a random lowered fuse time and pull the pin
-				othernademaybe.fuse_time = (othernademaybe.fuse_time) * (Random.value);
-				othernademaybe.Light_Fuse();
-			}
+
+
 		}
 		Instantiate(splosion_prefab, this.gameObject.transform.position, Random.rotation); // make a boom
 		Destroy (this.gameObject); // remove this nade
