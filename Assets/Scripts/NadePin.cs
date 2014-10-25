@@ -4,7 +4,7 @@ using System.Collections;
 public class NadePin : MonoBehaviour {
 
 	public GameObject stuck_in_nade;
-	public const float despawn_wait = 7f;
+	public 	float despawn_wait = 7f;
 	private float despawn_timer;
 
 	// Use this for initialization

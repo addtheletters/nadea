@@ -14,12 +14,12 @@ public class NadeThrow : MonoBehaviour {
 	public GameObject[] nade_pres; // requires assignment
 
 	// const
-	public const float maxThrowStrength = 25f;
-	public const float minThrowStrength = 1f;
-	public const float maxThrowPrepTime = 1.5f;	
-	public const float carryDistance = 1.2f;
-	public const float smooth 	= 5f;
-	public const float grabRange 	= 4f;
+	public float maxThrowStrength = 25f;
+	public float minThrowStrength = 1f;
+	public float maxThrowPrepTime = 1.5f;	
+	public float carryDistance = 1.2f;
+	public float smooth 		= 5f;
+	public float grabRange 	= 4f;
 
 	// refs
 	private Camera cam;
