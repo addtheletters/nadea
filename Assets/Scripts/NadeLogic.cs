@@ -7,7 +7,9 @@ public class NadeLogic : MonoBehaviour {
 	public float radius = 6.0f;
 	public float power = 750.0f;
 	public float lift = 1.0f;
-	public float pin_pull_force = 10f;
+	public Vector3 pin_pull_force	= new Vector3(0, 0, 100);
+	public Vector3 pin_pull_torque	= new Vector3(100, 0, 0);
+
 	// apparently the const keyword also makes things static though
 	// readonly is the proper keyword then, I think
 	// will refrain from keywords just in case these need to be modified whenever
@@ -40,8 +42,15 @@ public class NadeLogic : MonoBehaviour {
 	public void Pull_Pin(){
 		pin_pulled = true;
 		if (pin) {
+			if(!pin.rigidbody){
+				pin.AddComponent<Rigidbody>();
+			}
+			pin.rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
 			pin.rigidbody.isKinematic = false; // let the pin fall and clatter into things
-			pin.rigidbody.AddRelativeForce (new Vector3 (0, pin_pull_force, 0));
+			pin.rigidbody.AddRelativeForce (pin_pull_force);
+			pin.rigidbody.AddRelativeTorque(pin_pull_torque);
+			pin.transform.parent = null;
+			pin.GetComponent<NadePin>().stuck_in_nade = null;
 			pin = null;
 		}
 		//fuse_lit = true;

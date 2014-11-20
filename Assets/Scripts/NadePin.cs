@@ -3,9 +3,9 @@ using System.Collections;
 
 public class NadePin : MonoBehaviour {
 
-	public GameObject stuck_in_nade;
-	public 	float despawn_wait = 7f;
-	private float despawn_timer;
+	public	GameObject stuck_in_nade;
+	public	float despawn_wait = 1f;
+	public	float despawn_timer; // timer default val is zero, despawns when timer < negative wait.
 
 	// Use this for initialization
 	void Start () {
