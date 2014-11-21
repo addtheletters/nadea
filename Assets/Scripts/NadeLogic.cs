@@ -197,7 +197,9 @@ public class NadeLogic : MonoBehaviour {
 			applyExplosionEffect(hit, explosionPos);
 		}
 		GameObject splosion = (GameObject)Instantiate(splosion_prefab, this.gameObject.transform.position, Random.rotation); // make a boom
-		splosion.audio.pitch = Random.Range (pitch_low, pitch_high);
+		if (splosion.audio) {
+			splosion.audio.pitch = Random.Range (pitch_low, pitch_high);
+				}
 		Destroy (this.gameObject); // remove this nade
 	}
 }
