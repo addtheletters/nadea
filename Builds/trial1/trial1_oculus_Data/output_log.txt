@@ -1,0 +1,130 @@
+Initialize engine version: 4.5.5f1 (7684ad0c5a44)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 9.0c [nvumdshim.dll 9.18.13.2762]
+    Renderer: Intel(R) HD Graphics 4600
+    Vendor:   Intel
+    VRAM:     1988 MB (via DXGI)
+    Caps:     Shader=30 DepthRT=1 NativeDepth=1 NativeShadow=1 DF16=0 INTZ=1 RAWZ=0 NULL=1 RESZ=0 SlowINTZ=0
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\Ben\Documents\GitHub\nadea\Builds\trial1\trial1_oculus_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Ben\Documents\GitHub\nadea\Builds\trial1\trial1_oculus_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Ben\Documents\GitHub\nadea\Builds\trial1\trial1_oculus_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading C:\Users\Ben\Documents\GitHub\nadea\Builds\trial1\trial1_oculus_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\Ben\Documents\GitHub\nadea\Builds\trial1\trial1_oculus_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Ben\Documents\GitHub\nadea\Builds\trial1\trial1_oculus_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Ben\Documents\GitHub\nadea\Builds\trial1\trial1_oculus_Data\Managed\Assembly-UnityScript-firstpass.dll (this message is harmless)
+Loading C:\Users\Ben\Documents\GitHub\nadea\Builds\trial1\trial1_oculus_Data\Managed\Assembly-UnityScript-firstpass.dll into Unity Child Domain
+- Completed reload, in  0.049 seconds
+<RI> Initializing input.
+<RI> Input initialized.
+desktop: 1600x900 60Hz; virtual: 1600x900 at 0,0
+Platform assembly: C:\Users\Ben\Documents\GitHub\nadea\Builds\trial1\trial1_oculus_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\Ben\Documents\GitHub\nadea\Builds\trial1\trial1_oculus_Data\Managed\System.dll (this message is harmless)
+Crash!!!
+SymInit: Symbol-SearchPath: '.;C:\Users\Ben\Documents\GitHub\nadea\Builds\trial1;C:\Users\Ben\Documents\GitHub\nadea\Builds\trial1;C:\windows;C:\windows\system32;SRV*C:\websymbols*http://msdl.microsoft.com/download/symbols;', symOptions: 530, UserName: 'Ben'
+OS-Version: 6.2.9200 () 0x300-0x1
+C:\Users\Ben\Documents\GitHub\nadea\Builds\trial1\trial1_oculus.exe:trial1_oculus.exe (00280000), size: 13672448 (result: 0), SymType: 'PDB', PDB: 'C:\Users\Ben\Documents\GitHub\nadea\Builds\trial1\trial1_oculus.exe', fileVersion: 4.5.5.37569
+C:\windows\SYSTEM32\ntdll.dll:ntdll.dll (76F60000), size: 1474560 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\ntdll.dll', fileVersion: 6.3.9600.16502
+C:\windows\SYSTEM32\KERNEL32.DLL:KERNEL32.DLL (74E90000), size: 1310720 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\KERNEL32.DLL', fileVersion: 6.3.9600.16656
+C:\windows\SYSTEM32\KERNELBASE.dll:KERNELBASE.dll (74B90000), size: 847872 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\KERNELBASE.dll', fileVersion: 6.3.9600.16656
+C:\windows\SYSTEM32\HID.DLL:HID.DLL (725F0000), size: 40960 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\HID.DLL', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\WS2_32.dll:WS2_32.dll (76CE0000), size: 315392 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\WS2_32.dll', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\USER32.dll:USER32.dll (76D30000), size: 1372160 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\USER32.dll', fileVersion: 6.3.9600.16441
+C:\windows\SYSTEM32\VERSION.dll:VERSION.dll (73E20000), size: 32768 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\VERSION.dll', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\ole32.dll:ole32.dll (75340000), size: 1093632 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\ole32.dll', fileVersion: 6.3.9600.16408
+C:\windows\SYSTEM32\SHLWAPI.dll:SHLWAPI.dll (768E0000), size: 266240 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\SHLWAPI.dll', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\PSAPI.DLL:PSAPI.DLL (76E80000), size: 24576 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\PSAPI.DLL', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\ADVAPI32.dll:ADVAPI32.dll (74A40000), size: 487424 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\ADVAPI32.dll', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\GDI32.dll:GDI32.dll (75230000), size: 1081344 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\GDI32.dll', fileVersion: 6.3.9600.16421
+C:\windows\SYSTEM32\SHELL32.dll:SHELL32.dll (75670000), size: 18497536 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\SHELL32.dll', fileVersion: 6.3.9600.16660
+C:\windows\SYSTEM32\OPENGL32.dll:OPENGL32.dll (6AF80000), size: 868352 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\OPENGL32.dll', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\WINMM.dll:WINMM.dll (73E90000), size: 131072 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\WINMM.dll', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\OLEAUT32.dll:OLEAUT32.dll (76B40000), size: 552960 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\OLEAUT32.dll', fileVersion: 6.3.9600.16451
+C:\windows\SYSTEM32\MSACM32.dll:MSACM32.dll (720C0000), size: 86016 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\MSACM32.dll', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\IMM32.dll:IMM32.dll (74D10000), size: 151552 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\IMM32.dll', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\DNSAPI.dll:DNSAPI.dll (73EF0000), size: 507904 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\DNSAPI.dll', fileVersion: 6.3.9600.16423
+C:\windows\SYSTEM32\IPHLPAPI.DLL:IPHLPAPI.DLL (747E0000), size: 122880 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\IPHLPAPI.DLL', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\WINHTTP.dll:WINHTTP.dll (74800000), size: 606208 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\WINHTTP.dll', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\msvcrt.dll:msvcrt.dll (76820000), size: 778240 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\msvcrt.dll', fileVersion: 7.0.9600.16384
+C:\windows\SYSTEM32\NSI.dll:NSI.dll (749B0000), size: 28672 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\NSI.dll', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\RPCRT4.dll:RPCRT4.dll (74FD0000), size: 724992 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\RPCRT4.dll', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\combase.dll:combase.dll (75490000), size: 1368064 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\combase.dll', fileVersion: 6.3.9600.16520
+C:\windows\SYSTEM32\sechost.dll:sechost.dll (75450000), size: 253952 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\sechost.dll', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\GLU32.dll:GLU32.dll (6ADD0000), size: 147456 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\GLU32.dll', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\DDRAW.dll:DDRAW.dll (6B260000), size: 946176 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\DDRAW.dll', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\WINMMBASE.dll:WINMMBASE.dll (73E70000), size: 131072 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\WINMMBASE.dll', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\MSCTF.dll:MSCTF.dll (76BD0000), size: 1011712 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\MSCTF.dll', fileVersion: 6.3.9600.16418
+C:\windows\SYSTEM32\WINNSI.DLL:WINNSI.DLL (747D0000), size: 32768 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\WINNSI.DLL', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\SspiCli.dll:SspiCli.dll (74990000), size: 118784 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\SspiCli.dll', fileVersion: 6.3.9600.16408
+C:\windows\SYSTEM32\DCIMAN32.dll:DCIMAN32.dll (6DAB0000), size: 28672 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\DCIMAN32.dll', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\cfgmgr32.dll:cfgmgr32.dll (74AC0000), size: 237568 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\cfgmgr32.dll', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\DEVOBJ.dll:DEVOBJ.dll (73E50000), size: 126976 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\DEVOBJ.dll', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\CRYPTBASE.dll:CRYPTBASE.dll (74980000), size: 36864 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\CRYPTBASE.dll', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\bcryptPrimitives.dll:bcryptPrimitives.dll (74920000), size: 331776 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\bcryptPrimitives.dll', fileVersion: 6.3.9600.16384
+C:\Users\Ben\Documents\GitHub\nadea\Builds\trial1\trial1_oculus_Data\Plugins\OculusPlugin.DLL:OculusPlugin.DLL (67520000), size: 638976 (result: 0), SymType: '-exported-', PDB: 'C:\Users\Ben\Documents\GitHub\nadea\Builds\trial1\trial1_oculus_Data\Plugins\OculusPlugin.DLL'
+C:\windows\SYSTEM32\dxgi.dll:dxgi.dll (6AD00000), size: 401408 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\dxgi.dll', fileVersion: 6.3.9600.16421
+C:\windows\SYSTEM32\SETUPAPI.dll:SETUPAPI.dll (76930000), size: 1753088 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\SETUPAPI.dll', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\dbghelp.dll:dbghelp.dll (6AE00000), size: 1343488 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\dbghelp.dll', fileVersion: 6.3.9600.16520
+C:\windows\SYSTEM32\d3d9.dll:d3d9.dll (739D0000), size: 1802240 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\d3d9.dll', fileVersion: 6.3.9600.16404
+C:\windows\SYSTEM32\dwmapi.dll:dwmapi.dll (73BA0000), size: 102400 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\dwmapi.dll', fileVersion: 6.3.9600.16408
+C:\windows\SYSTEM32\d3d11.dll:d3d11.dll (6AB50000), size: 1757184 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\d3d11.dll', fileVersion: 6.3.9600.16421
+C:\windows\SYSTEM32\d3d10core.dll:d3d10core.dll (6AD80000), size: 294912 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\d3d10core.dll', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\d3d10.dll:d3d10.dll (6AA40000), size: 1085440 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\d3d10.dll', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\OVRDisplayRT32.dll:OVRDisplayRT32.dll (6AF60000), size: 86016 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\OVRDisplayRT32.dll', fileVersion: 1.1.9.0
+C:\windows\SYSTEM32\MSVCP120.dll:MSVCP120.dll (66E70000), size: 462848 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\MSVCP120.dll', fileVersion: 12.0.21005.1
+C:\windows\SYSTEM32\MSVCR120.dll:MSVCR120.dll (5EDC0000), size: 974848 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\MSVCR120.dll', fileVersion: 12.0.21005.1
+C:\windows\SYSTEM32\shcore.dll:shcore.dll (74750000), size: 487424 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\shcore.dll', fileVersion: 6.3.9600.16384
+C:\Users\Ben\Documents\GitHub\nadea\Builds\trial1\trial1_oculus_Data\Mono\mono.dll:mono.dll (10000000), size: 2289664 (result: 0), SymType: '-exported-', PDB: 'C:\Users\Ben\Documents\GitHub\nadea\Builds\trial1\trial1_oculus_Data\Mono\mono.dll'
+C:\windows\SYSTEM32\MSWSOCK.dll:MSWSOCK.dll (748A0000), size: 282624 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\MSWSOCK.dll', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\dhcpcsvc6.DLL:dhcpcsvc6.DLL (6DA90000), size: 73728 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\dhcpcsvc6.DLL', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\dhcpcsvc.DLL:dhcpcsvc.DLL (72D60000), size: 77824 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\dhcpcsvc.DLL', fileVersion: 6.3.9600.16384
+C:\windows\system32\napinsp.dll:napinsp.dll (729A0000), size: 65536 (result: 0), SymType: '-exported-', PDB: 'C:\windows\system32\napinsp.dll', fileVersion: 6.3.9600.16384
+C:\windows\system32\pnrpnsp.dll:pnrpnsp.dll (72980000), size: 81920 (result: 0), SymType: '-exported-', PDB: 'C:\windows\system32\pnrpnsp.dll', fileVersion: 6.3.9600.16384
+C:\windows\system32\NLAapi.dll:NLAapi.dll (72960000), size: 73728 (result: 0), SymType: '-exported-', PDB: 'C:\windows\system32\NLAapi.dll', fileVersion: 6.3.9600.16384
+C:\windows\System32\winrnr.dll:winrnr.dll (72950000), size: 36864 (result: 0), SymType: '-exported-', PDB: 'C:\windows\System32\winrnr.dll', fileVersion: 6.3.9600.16384
+C:\windows\system32\wshbth.dll:wshbth.dll (72940000), size: 61440 (result: 0), SymType: '-exported-', PDB: 'C:\windows\system32\wshbth.dll', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\kernel.appcore.dll:kernel.appcore.dll (739C0000), size: 36864 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\kernel.appcore.dll', fileVersion: 6.3.9600.16384
+C:\windows\system32\uxtheme.dll:uxtheme.dll (73BC0000), size: 901120 (result: 0), SymType: '-exported-', PDB: 'C:\windows\system32\uxtheme.dll', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\OVRDisplay32.dll:OVRDisplay32.dll (67920000), size: 69632 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\OVRDisplay32.dll', fileVersion: 1.1.9.0
+C:\windows\SYSTEM32\nvumdshim.dll:nvumdshim.dll (6D840000), size: 1261568 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\nvumdshim.dll', fileVersion: 9.18.13.2762
+C:\windows\SYSTEM32\nvinit.dll:nvinit.dll (6DB10000), size: 180224 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\nvinit.dll', fileVersion: 9.18.13.2762
+C:\Program Files (x86)\NVIDIA Corporation\CoProcManager\detoured.dll:detoured.dll (0F000000), size: 24576 (result: 0), SymType: '-exported-', PDB: 'C:\Program Files (x86)\NVIDIA Corporation\CoProcManager\detoured.dll'
+C:\Program Files (x86)\NVIDIA Corporation\CoProcManager\nvd3d9wrap.dll:nvd3d9wrap.dll (674C0000), size: 348160 (result: 0), SymType: '-exported-', PDB: 'C:\Program Files (x86)\NVIDIA Corporation\CoProcManager\nvd3d9wrap.dll', fileVersion: 9.18.13.2762
+C:\Program Files (x86)\NVIDIA Corporation\CoProcManager\nvdxgiwrap.dll:nvdxgiwrap.dll (67470000), size: 274432 (result: 0), SymType: '-exported-', PDB: 'C:\Program Files (x86)\NVIDIA Corporation\CoProcManager\nvdxgiwrap.dll', fileVersion: 9.18.13.2762
+C:\windows\system32\nvd3dum.dll:nvd3dum.dll (5CDF0000), size: 12926976 (result: 0), SymType: '-exported-', PDB: 'C:\windows\system32\nvd3dum.dll', fileVersion: 9.18.13.2762
+C:\windows\system32\igdumdim32.dll:igdumdim32.dll (6CD50000), size: 11436032 (result: 0), SymType: '-exported-', PDB: 'C:\windows\system32\igdumdim32.dll', fileVersion: 10.18.10.3277
+C:\windows\SYSTEM32\igdusc32.dll:igdusc32.dll (6C9F0000), size: 3522560 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\igdusc32.dll', fileVersion: 8.15.10.9141
+C:\windows\SYSTEM32\WINTRUST.dll:WINTRUST.dll (74B00000), size: 233472 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\WINTRUST.dll', fileVersion: 6.3.9600.16425
+C:\windows\SYSTEM32\CRYPT32.dll:CRYPT32.dll (750B0000), size: 1568768 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\CRYPT32.dll', fileVersion: 6.3.9600.16431
+C:\windows\SYSTEM32\MSASN1.dll:MSASN1.dll (74C60000), size: 57344 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\MSASN1.dll', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\powrprof.dll:powrprof.dll (70020000), size: 253952 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\powrprof.dll', fileVersion: 6.3.9600.16384
+C:\windows\system32\nvspcap.dll:nvspcap.dll (07790000), size: 1085440 (result: 0), SymType: '-exported-', PDB: 'C:\windows\system32\nvspcap.dll', fileVersion: 12.4.55.0
+C:\windows\SYSTEM32\nvapi.dll:nvapi.dll (5CB40000), size: 2777088 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\nvapi.dll', fileVersion: 9.18.13.2762
+C:\windows\SYSTEM32\MMDevAPI.DLL:MMDevAPI.DLL (09380000), size: 294912 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\MMDevAPI.DLL', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\wdmaud.drv:wdmaud.drv (67FE0000), size: 212992 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\wdmaud.drv', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\ksuser.dll:ksuser.dll (6DAD0000), size: 28672 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\ksuser.dll', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\AVRT.dll:AVRT.dll (6B210000), size: 36864 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\AVRT.dll', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\AUDIOSES.DLL:AUDIOSES.DLL (70060000), size: 348160 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\AUDIOSES.DLL', fileVersion: 6.3.9600.16405
+C:\windows\SYSTEM32\msacm32.drv:msacm32.drv (6AF50000), size: 36864 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\msacm32.drv', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\midimap.dll:midimap.dll (6AD70000), size: 32768 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\midimap.dll', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\dsound.dll:dsound.dll (67F60000), size: 495616 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\dsound.dll', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\clbcatq.dll:clbcatq.dll (749C0000), size: 512000 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\clbcatq.dll', fileVersion: 2001.12.10530.16384
+C:\windows\SYSTEM32\xinput1_3.dll:xinput1_3.dll (0A5E0000), size: 90112 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\xinput1_3.dll', fileVersion: 9.18.944.0
+C:\windows\SYSTEM32\Xinput9_1_0.dll:Xinput9_1_0.dll (67EB0000), size: 24576 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\Xinput9_1_0.dll', fileVersion: 6.3.9600.16384
+C:\windows\SYSTEM32\XInput1_4.dll:XInput1_4.dll (67EA0000), size: 45056 (result: 0), SymType: '-exported-', PDB: 'C:\windows\SYSTEM32\XInput1_4.dll', fileVersion: 6.3.9600.16384
+
+========== OUTPUTING STACK TRACE ==================
+
+(0x6D84C38E) (nvumdshim): (filename not available): OpenAdapter10 + 0x8ec7
+(0x6D854100) (nvumdshim): (filename not available): OpenAdapter10 + 0x10c39
+(0x6792585A) (OVRDisplay32): (filename not available): (function-name not available) + 0x0
+(0x6AF618E1) (OVRDisplayRT32): (filename not available): (function-name not available) + 0x0
+(0x6753D1A6) (OculusPlugin): (filename not available): ovr_WaitTillTime + 0x178d6
+(0x67524846) (OculusPlugin): (filename not available): ovrHmd_EndFrame + 0xd6
+(0x675218CC) (OculusPlugin): (filename not available): (function-name not available) + 0x0
+(0x0073AB61) c:\buildagent\work\d63dfc6385190b60\runtime\gfxdevice\threaded\gfxdeviceworker.cpp (215 + 0x14): GfxDeviceWorker::RunGfxDeviceWorker + 0x51
+(0x004AB4ED) c:\buildagent\work\d63dfc6385190b60\runtime\threads\thread.cpp (40 + 0x9): Thread::RunThreadWrapper + 0x2d
+(0x74EA495D) (KERNEL32): (filename not available): BaseThreadInitThunk + 0xe
+(0x76FA98EE) (ntdll): (filename not available): RtlInitializeExceptionChain + 0x84
+(0x76FA98C4) (ntdll): (filename not available): RtlInitializeExceptionChain + 0x5a
