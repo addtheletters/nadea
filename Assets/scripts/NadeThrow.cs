@@ -34,7 +34,14 @@ public class NadeThrow : MonoBehaviour {
 	// for gui
 	private string[] toolbarStrings = {"Base", "Normal", "Cylinder", "Red Light", "Smoke"};
 
-	
+	// for audio
+	public AudioClip woosh_sound;
+	private float woosh_sound_threshold = 5f;
+	private float woosh_pitch_scale = 0.1f;
+	private float woosh_volume_low	= 0.15f;
+	private float woosh_volume_high	= 0.2f;
+
+
 	// Use this for initialization
 	void Start () {
 		cam = Camera.main;
@@ -135,6 +142,15 @@ public class NadeThrow : MonoBehaviour {
 		}
 		Debug.Log ("Throwing with strength "+throwForce);
 
+		// play woosh sound
+		if( throwForce > woosh_sound_threshold ){
+			Internal_Play_Sound(woosh_sound, 
+			                    throwForce * woosh_pitch_scale,
+			                    throwForce * woosh_pitch_scale,
+			                    woosh_volume_low,
+			                    woosh_volume_high);
+		}
+
 		// need temp var because drop clears internal reference
 		GameObject tossed_nade = held_nade;
 
@@ -143,6 +159,17 @@ public class NadeThrow : MonoBehaviour {
 		tossed_nade.rigidbody.AddForce( cam.transform.forward*throwForce, ForceMode.Impulse );
 		tossed_nade.rigidbody.AddTorque( throwTorque ); // maybe should be AddRelativeTorque for easier calculation
 
+	}
+
+	public void Internal_Play_Sound(AudioClip sound, float plow, float phigh, float vlow, float vhigh){
+		if(this.audio && sound){
+			this.audio.pitch = Random.Range (plow, phigh);
+			float vol = Random.Range(vlow, vhigh);
+			this.audio.PlayOneShot(sound, vol);
+		}
+		else{
+			Debug.Log("Thrower failed to play sound.");
+		}
 	}
 
 	void CheckNadePickup(){

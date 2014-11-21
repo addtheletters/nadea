@@ -21,6 +21,15 @@ public class NadeLogic : MonoBehaviour {
 	public GameObject splosion_prefab;	// requires assignment
 	public GameObject pin;				// probably requires assignment
 
+	// for audio
+	public AudioClip wall_hit_sound;
+	private float pitch_low 	= 0.75f;
+	private float pitch_high 	= 1.25f;
+	private float bounce_volume_scale = 0.2f;
+	private float bounce_pitch_scale = 0.2f;
+	//private float bounce_volume_low		= 0.1f;
+	//private float bounce_volume_high	= 0.15f;
+
 	// vars
 	public bool is_held = false;
 	public bool pin_pulled = false;
@@ -28,11 +37,27 @@ public class NadeLogic : MonoBehaviour {
 	public float fuse_time = 5.0f;
 	private float light_timer = 0f;
 
+	private float impact_sound_threshold = 1.5f;
+	private float impact_detonation_threshold = 1000f;
+
+
 	// Use this for initialization
 	void Start () {
 		// get light controller if there are lights attached too
 		// if there are none, lights will be null, which is OK
 		lights = this.gameObject.GetComponent <LightController>();
+
+	}
+
+	public void Internal_Play_Sound(AudioClip sound, float plow, float phigh, float vlow, float vhigh){
+		if(this.audio && sound){
+			this.audio.pitch = Random.Range (plow, phigh);
+			float vol = Random.Range(vlow, vhigh);
+			this.audio.PlayOneShot(sound, vol);
+		}
+		else{
+			Debug.Log("Grenade failed to play sound.");
+		}
 	}
 
 	public void Light_Fuse(){
@@ -42,6 +67,11 @@ public class NadeLogic : MonoBehaviour {
 	public void Pull_Pin(){
 		pin_pulled = true;
 		if (pin) {
+
+			//Internal_Play_Sound(pin_pull_sound, pitch_low, pitch_high, pin_volume_low, pin_volume_high);
+			NadePin np = pin.GetComponent<NadePin>();
+			np.Internal_Play_Sound(np.pin_pull_sound);
+
 			if(!pin.rigidbody){
 				pin.AddComponent<Rigidbody>();
 			}
@@ -114,6 +144,20 @@ public class NadeLogic : MonoBehaviour {
 		return fuse_time / 8f;
 	}
 
+	void OnCollisionEnter(Collision coll){
+		float speed = coll.relativeVelocity.magnitude;
+		if( speed > impact_sound_threshold ){
+			Internal_Play_Sound (wall_hit_sound,
+			                     speed * bounce_pitch_scale,
+			                     speed * bounce_pitch_scale,
+			                     speed * bounce_volume_scale,
+			                     speed * bounce_volume_scale);
+		}
+		if (speed > impact_detonation_threshold) {
+			this.Blow_Up();
+		}
+	}
+
 	// Update is called once per frame
 	void Update () {
 
@@ -142,12 +186,18 @@ public class NadeLogic : MonoBehaviour {
 		if (is_held) {
 			nadethrowcomponent.TossHeldNade(0);
 		}
+
+		//Internal_Play_Sound (explosion_sound, pitch_low, pitch_high, pin_volume_low, pin_volume_high);
+		// grenade sound now part of explosion prefab
+		// this didn't work because this entity got deleted instantly, cutting off the sound
+
 		Vector3 explosionPos = transform.position;
 		Collider[] colliders = Physics.OverlapSphere(explosionPos, radius);
 		foreach (Collider hit in colliders) {
 			applyExplosionEffect(hit, explosionPos);
 		}
-		Instantiate(splosion_prefab, this.gameObject.transform.position, Random.rotation); // make a boom
+		GameObject splosion = (GameObject)Instantiate(splosion_prefab, this.gameObject.transform.position, Random.rotation); // make a boom
+		splosion.audio.pitch = Random.Range (pitch_low, pitch_high);
 		Destroy (this.gameObject); // remove this nade
 	}
 }
