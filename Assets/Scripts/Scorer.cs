@@ -6,7 +6,7 @@ public class Scorer : MonoBehaviour {
 	public int total_score		 = 0;
 	public float incoming_multiplier = 1.0f;
 
-	public float mult_expiration_lim = 8f;
+	public float mult_expiration_lim = 10f;
 	private float mult_expiration_timer = 0f;
 
 	// distance from topright corner
