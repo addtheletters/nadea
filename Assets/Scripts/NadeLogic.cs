@@ -119,6 +119,13 @@ public class NadeLogic : MonoBehaviour {
 			applyNadeExplEffect(othernade, explosionPos);
 
 		}
+
+		// if what's hit is a score object
+		ScoreObject so = physics_hit.gameObject.GetComponent<ScoreObject> ();
+		if (so) {
+			so.TriggerScoreObject();
+		}
+
 	}
 
 	protected virtual void applyRigidbodyExplEffect(Rigidbody otherRB, Vector3 explosionPos){
@@ -147,7 +154,10 @@ public class NadeLogic : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision coll){
+		// if the grenade hits things
 		float speed = coll.relativeVelocity.magnitude;
+
+		// if it hits fast enough play a hit sound
 		if( speed > impact_sound_threshold ){
 			InternalPlaySound (wall_hit_sound,
 			                     speed * bounce_pitch_scale,
@@ -155,6 +165,8 @@ public class NadeLogic : MonoBehaviour {
 			                     speed * bounce_volume_scale,
 			                     speed * bounce_volume_scale);
 		}
+
+		// if it hits hard enough, blow it up immediately
 		if (speed > impact_detonation_threshold) {
 			this.BlowUp();
 		}
@@ -188,20 +200,20 @@ public class NadeLogic : MonoBehaviour {
 		if (is_held) {
 			nadethrowcomponent.TossHeldNade(0);
 		}
-
-		//InternalPlaySound (explosion_sound, pitch_low, pitch_high, pin_volume_low, pin_volume_high);
-		// grenade sound now part of explosion prefab
-		// this didn't work because this entity got deleted instantly, cutting off the sound
-
+		
 		Vector3 explosionPos = transform.position;
 		Collider[] colliders = Physics.OverlapSphere(explosionPos, radius);
+		// for every collider in the explosion radius
 		foreach (Collider hit in colliders) {
 			applyExplosionEffect(hit, explosionPos);
 		}
+
+		// make an explosion
 		GameObject splosion = (GameObject)Instantiate(splosion_prefab, this.gameObject.transform.position, Random.rotation); // make a boom
 		if (splosion.audio) {
 			splosion.audio.pitch = Random.Range (pitch_low, pitch_high);
-				}
+		}
+		// explosion sound is part of explosion prefab
 		Destroy (this.gameObject); // remove this nade
 	}
 }

@@ -8,13 +8,15 @@ public class Scorer : MonoBehaviour {
 
 	public float mult_expiration_lim = 5f;
 	private float mult_expiration_timer = 0f;
-	
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
+	// distance from topright corner
+	private float scorebox_xspace = 25;
+	private float scorebox_yspace = 25;
+
+	private float scorebox_width = 300;
+	private float scorebox_height = 70;
+
+
 	// Update is called once per frame
 	void Update () {
 		if (incoming_multiplier > 1) {
@@ -29,7 +31,11 @@ public class Scorer : MonoBehaviour {
 	}
 
 	void OnGUI(){
-
+		GUI.Box (new Rect(
+			Screen.width - scorebox_width - scorebox_xspace,
+			scorebox_yspace,
+			scorebox_width,
+			scorebox_height), "<size=10><b>Score:</b></size>\n<size=30>" + total_score + "</size>");
 	}
 
 	public void AddMultipliedScore( float base_score ){
