@@ -49,7 +49,7 @@ public class NadeLogic : MonoBehaviour {
 
 	}
 
-	public void Internal_Play_Sound(AudioClip sound, float plow, float phigh, float vlow, float vhigh){
+	public void InternalPlaySound(AudioClip sound, float plow, float phigh, float vlow, float vhigh){
 		if(this.audio && sound){
 			this.audio.pitch = Random.Range (plow, phigh);
 			float vol = Random.Range(vlow, vhigh);
@@ -60,17 +60,17 @@ public class NadeLogic : MonoBehaviour {
 		}
 	}
 
-	public void Light_Fuse(){
+	public void LightFuse(){
 		fuse_lit = true;
 	}
 
-	public void Pull_Pin(){
+	public void PullPin(){
 		pin_pulled = true;
 		if (pin) {
 
 			//Internal_Play_Sound(pin_pull_sound, pitch_low, pitch_high, pin_volume_low, pin_volume_high);
 			NadePin np = pin.GetComponent<NadePin>();
-			np.Internal_Play_Sound(np.pin_pull_sound);
+			np.InternalPlaySound(np.pin_pull_sound);
 
 			if(!pin.rigidbody){
 				pin.AddComponent<Rigidbody>();
@@ -86,10 +86,12 @@ public class NadeLogic : MonoBehaviour {
 		//fuse_lit = true;
 	}
 
-	public void Restore_Pin(GameObject new_pin){
+	public void RestorePin(GameObject new_pin){
 		pin_pulled = false;
 		pin = new_pin;
 		pin.rigidbody.isKinematic = true;
+		pin.transform.parent = this.gameObject.transform;
+		pin.GetComponent<NadePin> ().stuck_in_nade = this.gameObject;
 		// stuff a new pin in?
 	}
 
@@ -127,16 +129,16 @@ public class NadeLogic : MonoBehaviour {
 		if (!othernade.fuse_lit) {		// and the pin is not pulled
 			// give it a random lowered fuse time and light the fuse
 			othernade.fuse_time = (othernade.fuse_time) * (Random.value * 0.75f);
-			othernade.Light_Fuse();
+			othernade.LightFuse();
 		}
 	}
 
 	protected virtual void Fuse_Time_Down(){
-		fuse_time -= Time.fixedDeltaTime;
+		fuse_time -= Time.deltaTime;
 	}
 
 	protected virtual void Light_Time_Down(){
-		light_timer -= Time.fixedDeltaTime;
+		light_timer -= Time.deltaTime;
 	}
 
 	protected virtual float getFullLightTimer(){
@@ -147,14 +149,14 @@ public class NadeLogic : MonoBehaviour {
 	void OnCollisionEnter(Collision coll){
 		float speed = coll.relativeVelocity.magnitude;
 		if( speed > impact_sound_threshold ){
-			Internal_Play_Sound (wall_hit_sound,
+			InternalPlaySound (wall_hit_sound,
 			                     speed * bounce_pitch_scale,
 			                     speed * bounce_pitch_scale,
 			                     speed * bounce_volume_scale,
 			                     speed * bounce_volume_scale);
 		}
 		if (speed > impact_detonation_threshold) {
-			this.Blow_Up();
+			this.BlowUp();
 		}
 	}
 
@@ -162,7 +164,7 @@ public class NadeLogic : MonoBehaviour {
 	void Update () {
 
 		if (shouldLightFuse()) {
-			Light_Fuse();
+			LightFuse();
 		}
 
 		if (fuse_lit) {
@@ -178,16 +180,16 @@ public class NadeLogic : MonoBehaviour {
 			}
 		}
 		if (shouldBlowup()) {
-			Blow_Up();
+			BlowUp();
 		}
 	}
 
-	public void Blow_Up(){
+	public void BlowUp(){
 		if (is_held) {
 			nadethrowcomponent.TossHeldNade(0);
 		}
 
-		//Internal_Play_Sound (explosion_sound, pitch_low, pitch_high, pin_volume_low, pin_volume_high);
+		//InternalPlaySound (explosion_sound, pitch_low, pitch_high, pin_volume_low, pin_volume_high);
 		// grenade sound now part of explosion prefab
 		// this didn't work because this entity got deleted instantly, cutting off the sound
 

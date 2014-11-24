@@ -23,6 +23,7 @@ public class NadeThrow : MonoBehaviour {
 
 	// refs
 	private Camera cam;
+	// need something to handle Oculus Rift position and rotation
 
 	// vars
 	private int selected_nade = 1;
@@ -46,6 +47,12 @@ public class NadeThrow : MonoBehaviour {
 	void Start () {
 		cam = Camera.main;
 		// so we know where we're aiming we need the camera
+
+		if (!cam) {
+			Debug.Log("No main camera. Oculus Rift?");
+
+
+		}
 
 	}
 
@@ -118,7 +125,7 @@ public class NadeThrow : MonoBehaviour {
 			return;
 		}
 		Debug.Log ("pulling pin on held nade... gulp...");
-		((NadeLogic)held_nade.GetComponent("NadeLogic")).Pull_Pin();
+		((NadeLogic)held_nade.GetComponent("NadeLogic")).PullPin();
 	}
 
 	void StartThrow(){
@@ -144,7 +151,7 @@ public class NadeThrow : MonoBehaviour {
 
 		// play woosh sound
 		if( throwForce > woosh_sound_threshold ){
-			Internal_Play_Sound(woosh_sound, 
+			InternalPlaySound(woosh_sound, 
 			                    throwForce * woosh_pitch_scale,
 			                    throwForce * woosh_pitch_scale,
 			                    woosh_volume_low,
@@ -161,7 +168,7 @@ public class NadeThrow : MonoBehaviour {
 
 	}
 
-	public void Internal_Play_Sound(AudioClip sound, float plow, float phigh, float vlow, float vhigh){
+	public void InternalPlaySound(AudioClip sound, float plow, float phigh, float vlow, float vhigh){
 		if(this.audio && sound){
 			this.audio.pitch = Random.Range (plow, phigh);
 			float vol = Random.Range(vlow, vhigh);
@@ -276,7 +283,7 @@ public class NadeThrow : MonoBehaviour {
 			CarryHeldNade ();
 
 			if(is_throw_started){
-				throwPrepTime += Time.fixedDeltaTime;
+				throwPrepTime += Time.deltaTime;
 				if(Input.GetButtonDown ("Cancel Throw") ){
 					CancelThrow();
 				}

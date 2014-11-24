@@ -15,7 +15,7 @@ public class NadePin : MonoBehaviour {
 	private float pin_volume_low	= 0.1f;
 	private float pin_volume_high	= 0.2f;
 
-	public void Internal_Play_Sound(AudioClip sound){
+	public void InternalPlaySound(AudioClip sound){
 		if(this.audio && sound){
 			this.audio.pitch = Random.Range (pitch_low, pitch_high);
 			float vol = Random.Range(pin_volume_low, pin_volume_high);
@@ -38,11 +38,11 @@ public class NadePin : MonoBehaviour {
 			}
 		}
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 		if (!stuck_in_nade) {
-			despawn_timer -= Time.fixedDeltaTime;
+			despawn_timer -= Time.deltaTime;
 			if(despawn_timer < -despawn_wait){
 				Destroy(this.gameObject);
 			}
