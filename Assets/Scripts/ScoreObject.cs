@@ -6,6 +6,9 @@ public class ScoreObject : MonoBehaviour {
 	// refs
 	public GameObject scorekeeper; // required
 
+	// internal
+	private LightController lightcontroller;
+
 	// settings
 	public float score_to_add = 100f;
 	public float multiplier_bonus = 0.1f;
@@ -18,11 +21,10 @@ public class ScoreObject : MonoBehaviour {
 	private float reset_timer 	= 0f;
 
 
-
-
+	
 	// Use this for initialization
 	void Start () {
-	
+		this.lightcontroller = (LightController)this.GetComponent<LightController> ();		
 	}
 	
 	// Update is called once per frame
@@ -50,6 +52,10 @@ public class ScoreObject : MonoBehaviour {
 		Scorer sc = scorekeeper.GetComponent<Scorer> ();
 		sc.AddMultipliedScore (this.score_to_add);
 		sc.AddToMultiplier (this.multiplier_bonus);
+
+		if (this.lightcontroller) {
+			this.lightcontroller.Instant_On();
+		}
 
 		if (kill_on_trigger) {
 			Destroy (this.gameObject);
