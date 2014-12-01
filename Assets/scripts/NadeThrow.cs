@@ -24,6 +24,11 @@ public class NadeThrow : MonoBehaviour {
 	// refs
 	private Camera cam;
 	// need something to handle Oculus Rift position and rotation
+	// private GameObject cam? cam_representation
+	// all it needs is cam.transform.position
+	// and cam.transform.rotation
+	// and cam.transform.forward
+	// for the purpose of Quaternion.LookRotation(...);
 
 	// vars
 	private int selected_nade = 1;
