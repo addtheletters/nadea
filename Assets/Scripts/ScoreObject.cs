@@ -10,7 +10,7 @@ public class ScoreObject : MonoBehaviour {
 	private LightController lightcontroller;
 
 	// settings
-	public float score_to_add = 100f;
+	public int score_to_add = 100;
 	public float multiplier_bonus = 0.1f;
 	public bool kill_on_trigger = false;
 	public bool use_reset_time = true;
@@ -50,8 +50,9 @@ public class ScoreObject : MonoBehaviour {
 		}
 
 		Scorer sc = scorekeeper.GetComponent<Scorer> ();
-		sc.AddMultipliedScore (this.score_to_add);
-		sc.AddToMultiplier (this.multiplier_bonus);
+		sc.AddScoreToCombo (this.score_to_add);
+		sc.AddToComboMultiplier (this.multiplier_bonus);
+		sc.RefreshComboTime ();
 
 		if (this.lightcontroller) {
 			this.lightcontroller.Instant_On();
