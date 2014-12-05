@@ -17,12 +17,12 @@ public class NadeThrow : MonoBehaviour {
 	public float maxThrowStrength = 25f;
 	public float minThrowStrength = 1f;
 	public float maxThrowPrepTime = 1.5f;	
-	public float carryDistance = 1.2f;
+	public float standardCarryDistance = 1.2f;
 	public float smooth 		= 5f;
 	public float grabRange 	= 4f;
 
 	// refs
-	private Camera cam;
+	private GameObject cam;
 	// need something to handle Oculus Rift position and rotation
 	// private GameObject cam? cam_representation
 	// all it needs is cam.transform.position
@@ -50,44 +50,67 @@ public class NadeThrow : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		cam = Camera.main;
+		if (Camera.main) {
+			cam = (GameObject)Camera.main.gameObject;
+		}
 		// so we know where we're aiming we need the camera
 
 		if (!cam) {
 			Debug.Log("No main camera. Oculus Rift?");
-
-
+			cam = GetOculusCamObject();
+			Debug.Log(cam);
 		}
 
+		if (!cam) {
+			Debug.Log("No camera or oculus camera equivalent found! Will break. :(");
+		}
+
+	}
+
+	GameObject GetOculusCamObject(){
+		return transform.Find ("ForwardDirection").gameObject;
 	}
 
 	void PickUpNade( GameObject nade ){
 		// make it what we hold
 		held_nade = nade;
+		// allow us to drag it around without gravity snatching it
+		//held_nade.rigidbody.isKinematic = true;
+		// should be replaced soon by
+		held_nade.rigidbody.useGravity = false;
+		
+		// keep track of the fact that we are now holding something
+		is_nade_held = true;
+
+
 		NadeLogic nl = nade.GetComponent<NadeLogic> ();
+		if (!nl) {
+			return;
+		}
 		// make sure it knows it's held
 		nl.is_held = true;
 		// make sure it knows what's holding it
 		nl.nadethrowcomponent = this;
 
-		// allow us to drag it around without gravity snatching it
-		//held_nade.rigidbody.isKinematic = true;
-		// should be replaced soon by
-		held_nade.rigidbody.useGravity = false;
 
-		// keep track of the fact that we are now holding something
-		is_nade_held = true;
 	}
 
 	void DropNade( ){
+
+		string heldID = GetHeldID ();
+
 		// undo everything commented about in CheckNadePickup()
 		is_nade_held = false;
 		//held_nade.rigidbody.isKinematic = false;
-		held_nade.rigidbody.useGravity = true;
+
+		if(!heldID.Equals("fatcube")){
+			held_nade.rigidbody.useGravity = true;
+		}
 
 		NadeLogic nl = held_nade.GetComponent<NadeLogic>();
-		nl.is_held = false;
-
+		if(nl){
+			nl.is_held = false;
+		}
 		held_nade = null;
 	}
 
@@ -98,7 +121,7 @@ public class NadeThrow : MonoBehaviour {
 			return;
 		}
 		GameObject new_nade = (GameObject)Instantiate(nade_pres[selected_nade],
-		                                              cam.transform.position + cam.transform.forward * carryDistance,
+		                                              cam.transform.position + cam.transform.forward * GetCarryDistance(),
 		                                              cam.transform.rotation);
 		PickUpNade (new_nade);
 	}
@@ -108,8 +131,10 @@ public class NadeThrow : MonoBehaviour {
 		// nade should collide properly
 		// should rely on forces / velocities / torques rather than setting values
 
+		string carryid = GetHeldID();
+
 		// position
-		Vector3 intended_position = cam.transform.position + cam.transform.forward * carryDistance;
+		Vector3 intended_position = cam.transform.position + cam.transform.forward * GetCarryDistance(carryid);
 		Vector3 delta_pos = intended_position - held_nade.transform.position;
 		held_nade.rigidbody.velocity = GetComponent<CharacterController>().velocity + delta_pos.normalized * held_nade.rigidbody.velocity.magnitude;
 		// makes it go in the direction of the grab point at the speed of before. change so that cannot spontaneously change dir
@@ -130,7 +155,12 @@ public class NadeThrow : MonoBehaviour {
 			return;
 		}
 		Debug.Log ("pulling pin on held nade... gulp...");
-		((NadeLogic)held_nade.GetComponent("NadeLogic")).PullPin();
+		NadeLogic nl = held_nade.GetComponent<NadeLogic>();
+		if (!nl) {
+			Debug.Log ("held object was not a nade");
+			return;
+		}
+		nl.PullPin();
 	}
 
 	void StartThrow(){
@@ -187,14 +217,16 @@ public class NadeThrow : MonoBehaviour {
 	void CheckNadePickup(){
 		if (Input.GetButtonDown ("Grab")) {
 			// attempt to grab a nade the camera is pointing at
-			int x = Screen.width / 2;
-			int y = Screen.height / 2;
+			//int x = Screen.width / 2;
+			//int y = Screen.height / 2;
 			// raycast out from center of screen
-			Ray ray = cam.ScreenPointToRay(new Vector3(x,y));
+			Debug.Log("pos:"+cam.transform.position);
+			Debug.Log("tra:"+cam.transform.forward);
+			Ray ray = new Ray(cam.transform.position, cam.transform.forward);//cam.ScreenPointToRay(new Vector3(x,y));
 			RaycastHit hit;
 
 			if(Physics.Raycast(ray, out hit, grabRange)) {
-				Debug.Log ("Raycast hit");
+				//Debug.Log ("Raycast hit" + hit);
 				NadeLogic p = hit.collider.GetComponent<NadeLogic>();
 				if(p == null){
 					// could be a grenade pin?
@@ -205,7 +237,15 @@ public class NadeThrow : MonoBehaviour {
 					Debug.Log ("Raycast hit is a nade");
 					// make it what we hold
 					PickUpNade(p.gameObject);
+					return;
 				}
+
+				Pickupable pu = hit.collider.GetComponent<Pickupable>();
+				if(pu != null){
+					PickUpNade(pu.gameObject);
+					return;
+				}
+
 			}
 		}
 	}
@@ -222,15 +262,22 @@ public class NadeThrow : MonoBehaviour {
 	Vector3 GetThrowTorque( float prepTime ){
 		// depends on grenade type tho
 		// maybe also depends on type of throw. toss?
-		string nadetype = held_nade.GetComponent<NadeLogic> ().nade_type;
-		if (nadetype == "stick") {
+		string nadetype = GetHeldID();
+		if (nadetype.Equals("stick")) {
 			// end over end forwards
-		} else if (nadetype == "ball") {
+		} else if (nadetype.Equals("ball")) {
 			// like a righthand overhand, vector pointing up and left (or is it down and right)? 
 		} else {
 			// uhh something...
 		}
 		return Random.onUnitSphere * (GetThrowStrength (prepTime) * (Random.value * 0.3f + 0.7f)) * 5;
+	}
+
+	float GetCarryDistance( string identifier = "" ){
+		if(identifier.Equals("fatcube")){
+			return 3*standardCarryDistance;
+		}
+		return standardCarryDistance;
 	}
 
 	void CheckNadeSelect(){
@@ -246,6 +293,24 @@ public class NadeThrow : MonoBehaviour {
 		}
 	}
 
+	string GetHeldID(){
+		NadeLogic nl = held_nade.GetComponent<NadeLogic> ();
+		string identifier;
+		if (nl) {
+			identifier = nl.nade_type;
+			return identifier;
+		}
+		else{
+			identifier = "not nade";
+		}
+		Pickupable pu = held_nade.GetComponent<Pickupable> ();
+		if (pu) {
+			identifier = "fatcube";
+			return identifier;
+		}
+		return identifier;
+	}
+
 
 	void OnGUI () {
 		// nade selector
@@ -259,15 +324,19 @@ public class NadeThrow : MonoBehaviour {
 		// held nade pin pulled
 		if (is_nade_held) {
 			string message;
-			NadeLogic nadelog = held_nade.GetComponent<NadeLogic>();
-			if( nadelog.pin_pulled ){
-				message = "PIN IS PULLED!";
-				LowerLeftGUIBox(2, "Fuse time: " + Mathf.Round (nadelog.fuse_time));
-			}
-			else{
-				message = "Pin is in place.";
-				if( nadelog.fuse_lit ){
-					LowerLeftGUIBox(2, "Fuse seems to be burning...");
+			NadeLogic nl = held_nade.GetComponent<NadeLogic>();
+			if(!nl){
+				message = "Held object is not a nade.";
+			}else{
+				if( nl.pin_pulled ){
+					message = "PIN IS PULLED!";
+					LowerLeftGUIBox(2, "Fuse time: " + Mathf.Round (nl.fuse_time));
+				}
+				else{
+					message = "Pin is in place.";
+					if( nl.fuse_lit ){
+						LowerLeftGUIBox(2, "Fuse seems to be burning...");
+					}
 				}
 			}
 			LowerLeftGUIBox(1, message);
