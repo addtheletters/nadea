@@ -50,10 +50,10 @@ public class NadeLogic : MonoBehaviour {
 	}
 
 	public void InternalPlaySound(AudioClip sound, float plow, float phigh, float vlow, float vhigh){
-		if(this.audio && sound){
-			this.audio.pitch = Random.Range (plow, phigh);
+		if(this.GetComponent<AudioSource>() && sound){
+			this.GetComponent<AudioSource>().pitch = Random.Range (plow, phigh);
 			float vol = Random.Range(vlow, vhigh);
-			this.audio.PlayOneShot(sound, vol);
+			this.GetComponent<AudioSource>().PlayOneShot(sound, vol);
 		}
 		else{
 			Debug.Log("Grenade failed to play sound.");
@@ -72,13 +72,13 @@ public class NadeLogic : MonoBehaviour {
 			NadePin np = pin.GetComponent<NadePin>();
 			np.InternalPlaySound(np.pin_pull_sound);
 
-			if(!pin.rigidbody){
+			if(!pin.GetComponent<Rigidbody>()){
 				pin.AddComponent<Rigidbody>();
 			}
-			pin.rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
-			pin.rigidbody.isKinematic = false; // let the pin fall and clatter into things
-			pin.rigidbody.AddRelativeForce (pin_pull_force);
-			pin.rigidbody.AddRelativeTorque(pin_pull_torque);
+			pin.GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+			pin.GetComponent<Rigidbody>().isKinematic = false; // let the pin fall and clatter into things
+			pin.GetComponent<Rigidbody>().AddRelativeForce (pin_pull_force);
+			pin.GetComponent<Rigidbody>().AddRelativeTorque(pin_pull_torque);
 			pin.transform.parent = null;
 			pin.GetComponent<NadePin>().stuck_in_nade = null;
 			pin = null;
@@ -89,7 +89,7 @@ public class NadeLogic : MonoBehaviour {
 	public void RestorePin(GameObject new_pin){
 		pin_pulled = false;
 		pin = new_pin;
-		pin.rigidbody.isKinematic = true;
+		pin.GetComponent<Rigidbody>().isKinematic = true;
 		pin.transform.parent = this.gameObject.transform;
 		pin.GetComponent<NadePin> ().stuck_in_nade = this.gameObject;
 		// stuff a new pin in?
@@ -109,8 +109,8 @@ public class NadeLogic : MonoBehaviour {
 
 	protected void applyExplosionEffect(Collider physics_hit, Vector3 explosionPos){
 		// push all rigidbodies that are hit away with explosive force
-		if (physics_hit && physics_hit.rigidbody) {
-			applyRigidbodyExplEffect(physics_hit.rigidbody, explosionPos);
+		if (physics_hit && physics_hit.GetComponent<Rigidbody>()) {
+			applyRigidbodyExplEffect(physics_hit.GetComponent<Rigidbody>(), explosionPos);
 		}
 
 		// if what's hit is a nade
@@ -210,8 +210,8 @@ public class NadeLogic : MonoBehaviour {
 
 		// make an explosion
 		GameObject splosion = (GameObject)Instantiate(splosion_prefab, this.gameObject.transform.position, Random.rotation); // make a boom
-		if (splosion.audio) {
-			splosion.audio.pitch = Random.Range (pitch_low, pitch_high);
+		if (splosion.GetComponent<AudioSource>()) {
+			splosion.GetComponent<AudioSource>().pitch = Random.Range (pitch_low, pitch_high);
 		}
 		// explosion sound is part of explosion prefab
 		Destroy (this.gameObject); // remove this nade

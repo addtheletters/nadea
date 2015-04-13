@@ -77,7 +77,7 @@ public class NadeThrow : MonoBehaviour {
 		// allow us to drag it around without gravity snatching it
 		//held_nade.rigidbody.isKinematic = true;
 		// should be replaced soon by
-		held_nade.rigidbody.useGravity = false;
+		held_nade.GetComponent<Rigidbody>().useGravity = false;
 		
 		// keep track of the fact that we are now holding something
 		is_nade_held = true;
@@ -104,7 +104,7 @@ public class NadeThrow : MonoBehaviour {
 		//held_nade.rigidbody.isKinematic = false;
 
 		if(!heldID.Equals("fatcube")){
-			held_nade.rigidbody.useGravity = true;
+			held_nade.GetComponent<Rigidbody>().useGravity = true;
 		}
 
 		NadeLogic nl = held_nade.GetComponent<NadeLogic>();
@@ -136,14 +136,15 @@ public class NadeThrow : MonoBehaviour {
 		// position
 		Vector3 intended_position = cam.transform.position + cam.transform.forward * GetCarryDistance(carryid);
 		Vector3 delta_pos = intended_position - held_nade.transform.position;
-		held_nade.rigidbody.velocity = GetComponent<CharacterController>().velocity + delta_pos.normalized * held_nade.rigidbody.velocity.magnitude;
+		Debug.Log("Delta pos for held nade: " + delta_pos);
+		held_nade.GetComponent<Rigidbody>().velocity = GetComponent<CharacterController>().velocity + delta_pos.normalized * held_nade.GetComponent<Rigidbody>().velocity.magnitude;
 		// makes it go in the direction of the grab point at the speed of before. change so that cannot spontaneously change dir
-		held_nade.rigidbody.AddForce(delta_pos * 50, ForceMode.Acceleration);
+		held_nade.GetComponent<Rigidbody>().AddForce(delta_pos * 50, ForceMode.Acceleration);
 		// Debug.Log ("vscale "+Mathf.Min(1.0f, delta_pos.magnitude ));
-		held_nade.rigidbody.velocity *= Mathf.Min(1.0f, delta_pos.magnitude);
+		held_nade.GetComponent<Rigidbody>().velocity *= Mathf.Min(1.0f, delta_pos.magnitude);
 
 		// rotation
-		held_nade.rigidbody.angularVelocity = Vector3.zero;
+		held_nade.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
 		held_nade.transform.rotation = Quaternion.Lerp( 
                held_nade.transform.rotation,
                Quaternion.LookRotation (cam.transform.forward), Time.fixedDeltaTime * smooth);
@@ -198,16 +199,16 @@ public class NadeThrow : MonoBehaviour {
 
 		DropNade ();
 		// also give it the throw forces
-		tossed_nade.rigidbody.AddForce( cam.transform.forward*throwForce, ForceMode.Impulse );
-		tossed_nade.rigidbody.AddTorque( throwTorque ); // maybe should be AddRelativeTorque for easier calculation
+		tossed_nade.GetComponent<Rigidbody>().AddForce( cam.transform.forward*throwForce, ForceMode.Impulse );
+		tossed_nade.GetComponent<Rigidbody>().AddTorque( throwTorque ); // maybe should be AddRelativeTorque for easier calculation
 
 	}
 
 	public void InternalPlaySound(AudioClip sound, float plow, float phigh, float vlow, float vhigh){
-		if(this.audio && sound){
-			this.audio.pitch = Random.Range (plow, phigh);
+		if(this.GetComponent<AudioSource>() && sound){
+			this.GetComponent<AudioSource>().pitch = Random.Range (plow, phigh);
 			float vol = Random.Range(vlow, vhigh);
-			this.audio.PlayOneShot(sound, vol);
+			this.GetComponent<AudioSource>().PlayOneShot(sound, vol);
 		}
 		else{
 			Debug.Log("Thrower failed to play sound.");

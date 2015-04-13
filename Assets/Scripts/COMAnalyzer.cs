@@ -11,7 +11,7 @@ public class COMAnalyzer : MonoBehaviour {
 	}
 
 	void Analyze(GameObject obj){
-		Rigidbody rb = obj.rigidbody;
+		Rigidbody rb = obj.GetComponent<Rigidbody>();
 		Debug.Log ("rigidbody center of mass: "+rb.centerOfMass);
 		Debug.Log ("transform center: "+obj.transform.position);
 	}

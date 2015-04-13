@@ -16,10 +16,10 @@ public class NadePin : MonoBehaviour {
 	private float pin_volume_high	= 0.2f;
 
 	public void InternalPlaySound(AudioClip sound){
-		if(this.audio && sound){
-			this.audio.pitch = Random.Range (pitch_low, pitch_high);
+		if(this.GetComponent<AudioSource>() && sound){
+			this.GetComponent<AudioSource>().pitch = Random.Range (pitch_low, pitch_high);
 			float vol = Random.Range(pin_volume_low, pin_volume_high);
-			this.audio.PlayOneShot(sound, vol);
+			this.GetComponent<AudioSource>().PlayOneShot(sound, vol);
 		}
 		else{
 			Debug.Log("Pin failed to play sound.");

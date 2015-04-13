@@ -9,18 +9,18 @@ public class SampleTeleGrab : MonoBehaviour {
 	
 	void FixedUpdate()
 	{
-		if(heldObject.rigidbody.constraints != RigidbodyConstraints.FreezeRotation)
-			heldObject.rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
-		if(heldObject.rigidbody.useGravity)
-			heldObject.rigidbody.useGravity = false;
+		if(heldObject.GetComponent<Rigidbody>().constraints != RigidbodyConstraints.FreezeRotation)
+			heldObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
+		if(heldObject.GetComponent<Rigidbody>().useGravity)
+			heldObject.GetComponent<Rigidbody>().useGravity = false;
 		
 		Vector3 targetPoint = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, 0));
 		targetPoint += Camera.main.transform.forward * mPointDistance;
 		Vector3 force = targetPoint - heldObject.transform.position;
 		
-		heldObject.rigidbody.velocity = force.normalized * heldObject.rigidbody.velocity.magnitude;
-		heldObject.rigidbody.AddForce(force * mCorrectionForce);
+		heldObject.GetComponent<Rigidbody>().velocity = force.normalized * heldObject.GetComponent<Rigidbody>().velocity.magnitude;
+		heldObject.GetComponent<Rigidbody>().AddForce(force * mCorrectionForce);
 		
-		heldObject.rigidbody.velocity *= Mathf.Min(1.0f, force.magnitude / 2);
+		heldObject.GetComponent<Rigidbody>().velocity *= Mathf.Min(1.0f, force.magnitude / 2);
 	}
 }

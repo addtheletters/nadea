@@ -3,6 +3,8 @@ using System.Collections;
 
 public class DownPush : MonoBehaviour {
 
+	public float strength = 15;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -10,6 +12,6 @@ public class DownPush : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		this.rigidbody.AddForce(Vector3.down * 10 * Time.deltaTime);
+		this.GetComponent<Rigidbody>().AddForce(Vector3.down * strength * Time.deltaTime);
 	}
 }
