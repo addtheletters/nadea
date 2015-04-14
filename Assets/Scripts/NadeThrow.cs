@@ -136,7 +136,7 @@ public class NadeThrow : MonoBehaviour {
 		// position
 		Vector3 intended_position = cam.transform.position + cam.transform.forward * GetCarryDistance(carryid);
 		Vector3 delta_pos = intended_position - held_nade.transform.position;
-		Debug.Log("Delta pos for held nade: " + delta_pos);
+		//Debug.Log("Delta pos for held nade: " + delta_pos);
 		held_nade.GetComponent<Rigidbody>().velocity = GetComponent<CharacterController>().velocity + delta_pos.normalized * held_nade.GetComponent<Rigidbody>().velocity.magnitude;
 		// makes it go in the direction of the grab point at the speed of before. change so that cannot spontaneously change dir
 		held_nade.GetComponent<Rigidbody>().AddForce(delta_pos * 50, ForceMode.Acceleration);
@@ -221,8 +221,8 @@ public class NadeThrow : MonoBehaviour {
 			//int x = Screen.width / 2;
 			//int y = Screen.height / 2;
 			// raycast out from center of screen
-			Debug.Log("pos:"+cam.transform.position);
-			Debug.Log("tra:"+cam.transform.forward);
+			//Debug.Log("pos:"+cam.transform.position);
+			//Debug.Log("tra:"+cam.transform.forward);
 			Ray ray = new Ray(cam.transform.position, cam.transform.forward);//cam.ScreenPointToRay(new Vector3(x,y));
 			RaycastHit hit;
 
@@ -235,7 +235,7 @@ public class NadeThrow : MonoBehaviour {
 				}
 				// if we hit something and it has a NadeLogic component...
 				if(p != null) {
-					Debug.Log ("Raycast hit is a nade");
+					//Debug.Log ("Raycast hit is a nade");
 					// make it what we hold
 					PickUpNade(p.gameObject);
 					return;
